@@ -2,7 +2,7 @@
 // DOT_POSITION is shared so the edges follow the dots exactly.
 
 const COMMON = /* glsl */ `
-uniform float uTime, uGather, uFlow, uScale, uBand, uScrollY, uFieldH, uVelocity, uRepel;
+uniform float uTime, uGather, uFlow, uScale, uBand, uScrollY, uFieldH, uVelocity, uHover;
 uniform vec2 uMouse; // world xy on the dot plane
 attribute vec3 aField;
 attribute vec3 aOff;
@@ -23,17 +23,10 @@ vec3 dotPosition(out vec3 f, out float g) {
   f.y = mod(f.y + uScrollY * 0.0015 + uFieldH * 0.5, uFieldH) - uFieldH * 0.5;
   f.y += uVelocity * 0.0004 * aRandom; // tiny stretch when scrolling fast
 
-  // 2. cursor: push dots away, plus a ripple spreading out from the pointer
-  vec2 d = f.xy - uMouse;
-  float dist = length(d);
-  vec2 dir = normalize(d + 1e-4);
-  f.xy += dir * smoothstep(2.0, 0.0, dist) * 0.45 * uRepel;
-  f.xy += dir * sin(dist * 5.0 - uTime * 4.0) * 0.06 * smoothstep(3.2, 0.3, dist) * uRepel;
-
-  // 3. infinity target, flowing along the curve
+  // 2. infinity target, flowing along the curve
   vec3 inf = lemniscate(aT + uFlow) + aOff * uBand;
 
-  // 4. staggered gather
+  // 3. staggered gather
   g = smoothstep(0.0, 1.0, clamp(uGather * 1.5 - aRandom * 0.5, 0.0, 1.0));
   return mix(f, inf, g);
 }
@@ -53,7 +46,9 @@ void main() {
 
   float tw = 0.85 + 0.15 * sin(uTime * 1.3 + aRandom * 20.0);
   // Big and faint in the field; shrinks as it gathers so the ∞ stays crisp.
-  gl_PointSize = uSize * uPixelRatio * tw * mix(1.0, 0.9, g) * (1.0 / -mv.z);
+  // Dots nearest the cursor grow a little (no push); off on touch and once gathered.
+  float hover = smoothstep(1.3, 0.0, length(f.xy - uMouse)) * uHover;
+  gl_PointSize = uSize * uPixelRatio * tw * mix(1.0, 0.9, g) * (1.0 + 0.5 * hover) * (1.0 / -mv.z);
 
   vGlow = uFocus.z * smoothstep(2.2, 0.0, length(f.xy - uFocus.xy)) * (1.0 - g);
   vAlpha = uReveal * mix(uFieldAlpha, 0.95, g);

@@ -9,7 +9,7 @@ import { motion } from "./store";
 
 export const DOT_SIZE = 44; // px at the dot plane distance before DPR (~5.5px in the field)
 export const FIELD_ALPHA = 0.16;
-export const REPEL_RADIUS = 2.0; // baked into the shader (push 0.45, ripple out to 3.2)
+export const HOVER_RADIUS = 1.3; // baked into the shader: dots within it grow up to 1.5x
 export const EDGE_NEIGHBORS = 2;
 export const EDGE_CROSS_P = 0.25;
 export const EDGE_OPACITY = 0.35;
@@ -38,7 +38,7 @@ export const dotUniforms = {
   uScrollY: { value: 0 },
   uFieldH: { value: 10 },
   uVelocity: { value: 0 },
-  uRepel: { value: 1 },
+  uHover: { value: 1 },
   uFieldAlpha: { value: FIELD_ALPHA },
   uMouse: { value: new THREE.Vector2() },
   uFocus: { value: new THREE.Vector3() },
@@ -96,8 +96,8 @@ export function useDotUniformSync(plane: { width: number; height: number }, mobi
     u.uGather.value = motion.gather;
     u.uDraw.value = motion.draw;
     u.uFlow.value = motion.flow;
-    u.uRepel.value = motion.touch ? 0 : 1 - motion.gather;
-    // Eased, so the push and ripple trail the pointer instead of snapping.
+    u.uHover.value = motion.touch ? 0 : 1 - motion.gather;
+    // Eased, so the highlight glides after the pointer instead of snapping.
     mouseTarget.set((motion.mouse.x * plane.width) / 2, (motion.mouse.y * plane.height) / 2);
     u.uMouse.value.lerp(mouseTarget, 0.12);
     focusTarget.set((motion.focus.x * plane.width) / 2, (motion.focus.y * plane.height) / 2, motion.focus.strength);
