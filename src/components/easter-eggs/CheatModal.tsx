@@ -71,11 +71,8 @@ export function CheatModal() {
           You found the cheat code.
         </h2>
         <p className="text-lg leading-relaxed text-muted">
-          Truth is, there isn&apos;t one. I just outwork the problem. Most of this site was built between 1am and 5am, with a
-          SoterCare deadline running in another window.
-        </p>
-        <p className="text-lg leading-relaxed text-ink">
-          Also, Sanu, if you ever find this: thank you. You&apos;re the real cheat code.
+          I have nothing much to say, just a thank you to my girl, MILO. Thank you for always believing in me and
+          supporting me.
         </p>
         <Eyebrow tone="soft">Founder&apos;s msg</Eyebrow>
       </div>
