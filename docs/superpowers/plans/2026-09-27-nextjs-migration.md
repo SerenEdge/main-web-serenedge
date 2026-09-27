@@ -24,7 +24,7 @@
 - Env var names: `RESEND_API_KEY`, `CONTACT_TO_EMAIL` (default `daham@serenedge.com`), `CONTACT_FROM_EMAIL` (default `SerenEdge <sales@serenedge.com>`).
 - The email logo is referenced as `cid:serenedge-logo`, attached with `contentId: "serenedge-logo"`, and read from `src/emails/static/logo-email.png`.
 - Breakpoints mirror the mock: `sm` ≥641px, `md` ≥761px, `lg` ≥901px, `xl` ≥1101px. Pinning (`pin:` variant) needs ≥901px wide **and** ≥820px tall.
-- Every commit message ends with the trailer `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`.
+- Commit messages carry NO attribution trailer of any kind (no `Co-Authored-By`, no "Generated with Claude Code" line). This supersedes every literal `git commit` example shown later in this document, which predates this project convention (`.claude/CLAUDE.md`). Use a plain subject line describing the change.
 - Shell commands below are POSIX (Git Bash on Windows).
 
 ## Review Focus
