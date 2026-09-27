@@ -18,6 +18,7 @@ npm run dev                  # http://localhost:3000
 | `npm run build` / `npm start` | Production build / serve |
 | `npm run lint` | ESLint |
 | `npm test` | Vitest unit tests |
+| `npm run test:watch` | Vitest in watch mode |
 | `npm run email` | React Email preview of both templates on :3001 |
 | `npm run email:logo` | Regenerates `src/emails/static/logo-email.png` from the mock logo |
 

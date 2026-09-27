@@ -14,12 +14,18 @@ function ScrollTriggerSync() {
  * One Lenis instance for the whole site, driven by GSAP's ticker so smooth
  * scroll and ScrollTrigger share a single RAF loop. Off under reduced motion.
  *
- * `children` renders INSIDE `<ReactLenis root>`, not as its sibling: the
- * component wraps its children in `LenisContext.Provider`, so anything
- * elsewhere in the tree calling `useLenis()` (Nav, ToolMarquee, PageTransition)
- * only sees the real instance if it is a descendant of this provider. `root`
- * only changes where Lenis attaches its scroll listener (window vs a wrapper
- * div); it does not change React's context rules.
+ * `children` must stay in the same position in the tree whether or not
+ * `reduced` is true: `useReducedMotion()` reports `true` for the SSR/hydration
+ * snapshot and flips to the real value right after hydration, and React
+ * remounts everything below a node whose element type changes at that
+ * position. `ReactLenis` (with `root`) and `ScrollTriggerSync` are rendered as
+ * conditional SIBLINGS of `children` rather than a conditional wrapper around
+ * it, so `children` never changes position and never remounts. This relies on
+ * `ReactLenis`'s `root: true` mode publishing the Lenis instance to a
+ * module-level store (`rootLenisContextStore` in `lenis/react`), not only to
+ * React context, so `useLenis()` elsewhere in the tree (Nav, ToolMarquee,
+ * PageTransition) still finds the real instance even though it's no longer a
+ * descendant of `ReactLenis` here. Re-verify against `lenis/react` on upgrade.
  */
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
   const lenisRef = useRef<LenisRef>(null);
@@ -40,12 +46,16 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     document.fonts?.ready.then(() => ScrollTrigger.refresh());
   }, []);
 
-  if (reduced) return <>{children}</>;
-
+  // See the doc comment above: these are siblings of `children`, not a wrapper
+  // around it, so the hydration-time `reduced` flip can't change `children`'s
+  // position in the tree and force React to remount the whole app below it.
   return (
-    <ReactLenis root ref={lenisRef} options={{ autoRaf: false, lerp: 0.1, smoothWheel: true, anchors: true }}>
-      <ScrollTriggerSync />
+    <>
+      {!reduced && (
+        <ReactLenis root ref={lenisRef} options={{ autoRaf: false, lerp: 0.1, smoothWheel: true, anchors: true }} />
+      )}
+      {!reduced && <ScrollTriggerSync />}
       {children}
-    </ReactLenis>
+    </>
   );
 }

@@ -141,6 +141,12 @@ export function WhyFlow() {
           const label = ref.current?.querySelector<HTMLElement>(".vp-label");
           const count = { p: 0 };
 
+          // The count-up tween below only starts ~0.8s into the timeline, well
+          // after other elements have faded in. Snap to 0% now so the visitor
+          // never sees the SSR-baked 64% before the animation takes over.
+          ring?.style.setProperty("--p", "0");
+          if (label) label.textContent = "0%";
+
           gsap
             .timeline({
               defaults: { ease: "expo.out", duration: 0.9 },
@@ -171,6 +177,15 @@ export function WhyFlow() {
               scrollTrigger: { trigger: ".why-flow", start: "top 80%", end: "top 40%", scrub: true },
             });
           }
+
+          return () => {
+            // Restore the SSR-baked final value so a matchMedia requery (e.g.
+            // resizing across the `wide` breakpoint, or toggling reduced
+            // motion) doesn't strand the ring at 0% with no way to re-trigger
+            // the count-up.
+            ring?.style.setProperty("--p", "64");
+            if (label) label.textContent = "64%";
+          };
         },
         ref,
       );

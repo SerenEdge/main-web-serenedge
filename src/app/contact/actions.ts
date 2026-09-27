@@ -21,9 +21,15 @@ export async function sendContact(_prev: ContactState, formData: FormData): Prom
   const values = valuesFrom(raw);
 
   // Bots: pretend it worked so they get no signal.
+  // `elapsedMs` is computed entirely on the client (elapsed time since the
+  // form mounted, written fresh at submit time) so this never compares two
+  // different clocks — a visitor's clock running ahead of the server's can no
+  // longer misclassify a real submission as too fast. Missing, zero or NaN
+  // (JS disabled, so the hidden field was never populated) means "no timing
+  // signal" and is allowed through, exactly like the no-JS case today.
   const honeypot = typeof raw.website === "string" ? raw.website.trim() : "";
-  const startedAt = Number(raw.startedAt);
-  const tooFast = Number.isFinite(startedAt) && startedAt > 0 && Date.now() - startedAt < MIN_FILL_MS;
+  const elapsed = Number(raw.elapsedMs);
+  const tooFast = Number.isFinite(elapsed) && elapsed > 0 && elapsed < MIN_FILL_MS;
   if (honeypot || tooFast) return { status: "success", topic: values.topic ?? "web" };
 
   const result = validateContact(raw);
@@ -36,9 +42,14 @@ export async function sendContact(_prev: ContactState, formData: FormData): Prom
   }
 
   const resend = createResend(config.apiKey);
-  const logo = await loadLogo();
 
+  // loadLogo() reads a file from disk and can throw (missing file, a
+  // file-tracing gap in some deploy environment); treat that exactly like any
+  // other send failure so the visitor always gets the fallback message with
+  // their input preserved, instead of an unhandled throw and Next's raw error screen.
+  let logo: Awaited<ReturnType<typeof loadLogo>>;
   try {
+    logo = await loadLogo();
     const team = await resend.emails.send(
       await buildTeamEmail(result.data, { from: config.from, to: config.to, logo, now: new Date() }),
     );

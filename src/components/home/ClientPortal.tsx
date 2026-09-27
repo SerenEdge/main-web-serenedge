@@ -48,6 +48,12 @@ export function ClientPortal() {
           const count = { v: 0 };
           setActive(ITEMS[0].key);
 
+          // The pin's scroll-triggered timeline only actually starts once the
+          // visitor scrolls into it. Snap to 0 now so the visitor never sees
+          // the SSR-baked 64% before the count-up begins.
+          gsap.set(bar, { scaleX: 0 });
+          if (num) num.textContent = "0%";
+
           // 1 unit fills the progress bar, then 4 more units of pinned scroll for the rest.
           const tl = gsap
             .timeline({ defaults: { ease: "none" } })
@@ -69,7 +75,15 @@ export function ClientPortal() {
             },
           });
 
-          return () => setActive(null);
+          return () => {
+            setActive(null);
+            // Restore the SSR-baked final values so a matchMedia requery (e.g.
+            // resizing across the `pin` breakpoint, or toggling reduced
+            // motion) doesn't strand the dashboard at 0% with no way to
+            // re-trigger the count-up.
+            gsap.set(bar, { scaleX: 1 });
+            if (num) num.textContent = "64%";
+          };
         },
         ref,
       );

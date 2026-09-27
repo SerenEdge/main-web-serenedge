@@ -25,7 +25,7 @@ function form(overrides: Record<string, string> = {}) {
     company: "",
     message: "We need sensors on 40 greenhouses.",
     website: "",
-    startedAt: String(Date.now() - 10_000),
+    elapsedMs: "10000",
     ...overrides,
   };
   for (const [k, v] of Object.entries(fields)) fd.set(k, v);
@@ -71,13 +71,29 @@ describe("sendContact", () => {
   });
 
   it("fakes success for a too-fast submission without sending", async () => {
-    const r = await sendContact(idle, form({ startedAt: String(Date.now() - 500) }));
+    const r = await sendContact(idle, form({ elapsedMs: "500" }));
     expect(r.status).toBe("success");
     expect(send).not.toHaveBeenCalled();
   });
 
-  it("allows a submission with no timestamp (JS disabled)", async () => {
-    const r = await sendContact(idle, form({ startedAt: "" }));
+  it("allows a submission with no elapsed value (JS disabled)", async () => {
+    const r = await sendContact(idle, form({ elapsedMs: "" }));
+    expect(r.status).toBe("success");
+    expect(send).toHaveBeenCalledTimes(2);
+  });
+
+  it("allows a submission with a zero elapsed value (no timing signal)", async () => {
+    const r = await sendContact(idle, form({ elapsedMs: "0" }));
+    expect(r.status).toBe("success");
+    expect(send).toHaveBeenCalledTimes(2);
+  });
+
+  it("does not misclassify a real submission from client/server clock skew", async () => {
+    // A negative elapsed value can never come from the real client (it always
+    // measures Date.now() - itself), but this guards the "never trust two
+    // clocks" invariant: only a valid positive elapsed value below the
+    // threshold should ever trip the guard.
+    const r = await sendContact(idle, form({ elapsedMs: "-5000" }));
     expect(r.status).toBe("success");
     expect(send).toHaveBeenCalledTimes(2);
   });

@@ -29,11 +29,15 @@ export function ContactForm({ initialTopic, onReset }: { initialTopic: TopicSlug
   const [state, formAction, pending] = useActionState(sendContact, INITIAL);
   const [topic, setTopic] = useState<TopicSlug>(initialTopic);
   const [clientErrors, setClientErrors] = useState<FieldErrors>({});
-  const startedRef = useRef<HTMLInputElement>(null);
+  const elapsedRef = useRef<HTMLInputElement>(null);
+  const mountedAtRef = useRef(0);
 
-  // Stamp when the form became usable; the action rejects instant (bot) submissions.
+  // Record when the form became usable; the action rejects instant (bot)
+  // submissions. The elapsed time is (re)computed fresh in the submit handler
+  // below rather than here, so it survives React resetting this hidden field
+  // back to its empty defaultValue after a failed submit attempt.
   useEffect(() => {
-    if (startedRef.current) startedRef.current.value = String(Date.now());
+    mountedAtRef.current = Date.now();
   }, []);
 
   if (state.status === "success") {
@@ -48,6 +52,12 @@ export function ContactForm({ initialTopic, onReset }: { initialTopic: TopicSlug
   const summary = `${topicFromSlug(topic).label} · 90-minute discovery call · Free`;
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    // Elapsed time since mount, computed on this single (client) clock — never
+    // compared against the server's clock, so clock skew can't misclassify a
+    // real submission as too fast. Written fresh on every submit attempt.
+    if (elapsedRef.current) {
+      elapsedRef.current.value = mountedAtRef.current > 0 ? String(Date.now() - mountedAtRef.current) : "";
+    }
     const result = validateContact(Object.fromEntries(new FormData(e.currentTarget)));
     if (!result.ok) {
       e.preventDefault();
@@ -76,7 +86,7 @@ export function ContactForm({ initialTopic, onReset }: { initialTopic: TopicSlug
 
   return (
     <form action={formAction} onSubmit={handleSubmit} noValidate className="relative">
-      <input ref={startedRef} type="hidden" name="startedAt" defaultValue="" />
+      <input ref={elapsedRef} type="hidden" name="elapsedMs" defaultValue="" />
       <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
         <label>
           Leave this empty

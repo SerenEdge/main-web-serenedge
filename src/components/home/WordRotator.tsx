@@ -38,7 +38,17 @@ export function WordRotator({ className }: { className?: string }) {
           );
           gsap.to(el, { width: widthOf(next), duration: 0.7, ease: "expo.out" });
         }, 2600);
-        return () => window.clearInterval(id);
+        return () => {
+          window.clearInterval(id);
+          // Reset to a known-consistent state on revert (e.g. reduced motion
+          // toggled on) so if motion is toggled back off later, rotation
+          // resumes cleanly from the first word instead of from wherever the
+          // interval was mid-transition when cleared.
+          i = 0;
+          gsap.set(words, { autoAlpha: 0, yPercent: 0, filter: "blur(0px)" });
+          gsap.set(words[0], { autoAlpha: 1 });
+          fit();
+        };
       });
 
       return () => window.removeEventListener("resize", fit);

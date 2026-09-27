@@ -8,12 +8,24 @@ import { gsap, MOTION, ScrollTrigger, useGSAP } from "@/lib/gsap";
 // Comparing paths also keeps React StrictMode's double effect from playing it.
 let lastPath: string | null = null;
 
+// Set by a `popstate` listener so the next mount can tell a Back/Forward
+// navigation from a forward one (link click / programmatic push). Next.js's
+// documented behavior is to preserve scroll position on Back/Forward, so we
+// must not force scroll-to-top for those. Registered once per page load.
+let pendingPopNavigation = false;
+if (typeof window !== "undefined") {
+  window.addEventListener("popstate", () => {
+    pendingPopNavigation = true;
+  });
+}
+
 export function PageTransition({ children }: { children: React.ReactNode }) {
   const panel = useRef<HTMLDivElement>(null);
   const lenis = useLenis();
   // Persists across this instance's Strict-Mode double-invoke (one render, two
   // effect invocations) even though the GSAP context itself gets reverted between them.
   const decidedRef = useRef<boolean | null>(null);
+  const isPopRef = useRef<boolean | null>(null);
 
   useGSAP(() => {
     const el = panel.current;
@@ -23,11 +35,16 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
       const path = window.location.pathname;
       decidedRef.current = lastPath !== null && lastPath !== path;
       lastPath = path;
+      isPopRef.current = pendingPopNavigation;
+      pendingPopNavigation = false;
     }
     const isNavigation = decidedRef.current;
 
-    // Next scrolls the window to top on navigation; keep Lenis's internal position in sync.
-    lenis?.scrollTo(0, { immediate: true, force: true });
+    // Next scrolls the window to top on navigation and keeps Lenis's internal
+    // position in sync — but only for a genuine forward navigation. Back/Forward
+    // (a pop) restores the browser's own scroll position, which Lenis should
+    // resync from via native scroll events instead of being forced to 0.
+    if (!isPopRef.current) lenis?.scrollTo(0, { immediate: true, force: true });
     if (!isNavigation) return;
 
     const mm = gsap.matchMedia();
