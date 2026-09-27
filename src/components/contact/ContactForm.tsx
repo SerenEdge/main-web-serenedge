@@ -88,7 +88,7 @@ export function ContactForm({ initialTopic, onReset }: { initialTopic: TopicSlug
         <legend className="sr-only">Topic</legend>
         <StepHead n={1}>What&apos;s it about?</StepHead>
         <input type="hidden" name="topic" value={topic} />
-        <div className="flex flex-nowrap gap-2 overflow-x-auto">
+        <div className="flex flex-nowrap gap-1.5">
           {TOPICS.map((t) => {
             const on = topic === t.slug;
             return (
@@ -98,7 +98,7 @@ export function ContactForm({ initialTopic, onReset }: { initialTopic: TopicSlug
                 aria-pressed={on}
                 onClick={() => setTopic(t.slug)}
                 className={cn(
-                  "h-11 shrink-0 rounded-full border px-[18px] text-sm font-medium transition-[background-color,border-color,color,transform] duration-150 active:scale-95",
+                  "h-8 shrink-0 whitespace-nowrap rounded-full border px-2.5 text-xs font-medium transition-[background-color,border-color,color,transform] duration-150 active:scale-95",
                   on ? "border-ink bg-ink text-white" : "border-line bg-white hover:border-accent",
                 )}
               >
