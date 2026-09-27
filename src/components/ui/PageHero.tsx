@@ -17,7 +17,7 @@ export function PageHero({ title, accent, lead, compact = false, children }: Pro
         <span className="block text-accent">{accent}</span>
       </SplitHeading>
       <Reveal delay={0.35} className="flex max-w-[520px] flex-col items-start gap-7 lg:justify-self-end">
-        <p className="type-lead">{lead}</p>
+        <p className="type-lead max-lg:text-lg">{lead}</p>
         {children}
       </Reveal>
     </section>
