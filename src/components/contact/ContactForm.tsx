@@ -88,7 +88,7 @@ export function ContactForm({ initialTopic, onReset }: { initialTopic: TopicSlug
         <legend className="sr-only">Topic</legend>
         <StepHead n={1}>What&apos;s it about?</StepHead>
         <input type="hidden" name="topic" value={topic} />
-        <div className="flex flex-nowrap gap-1.5">
+        <div className="flex flex-wrap gap-1.5">
           {TOPICS.map((t) => {
             const on = topic === t.slug;
             return (
