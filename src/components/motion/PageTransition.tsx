@@ -11,17 +11,24 @@ let lastPath: string | null = null;
 export function PageTransition({ children }: { children: React.ReactNode }) {
   const panel = useRef<HTMLDivElement>(null);
   const lenis = useLenis();
+  // Persists across this instance's Strict-Mode double-invoke (one render, two
+  // effect invocations) even though the GSAP context itself gets reverted between them.
+  const decidedRef = useRef<boolean | null>(null);
 
   useGSAP(() => {
     const el = panel.current;
     if (!el) return;
-    const path = window.location.pathname;
-    const isNavigation = lastPath !== null && lastPath !== path;
-    lastPath = path;
-    if (!isNavigation) return;
+
+    if (decidedRef.current === null) {
+      const path = window.location.pathname;
+      decidedRef.current = lastPath !== null && lastPath !== path;
+      lastPath = path;
+    }
+    const isNavigation = decidedRef.current;
 
     // Next scrolls the window to top on navigation; keep Lenis's internal position in sync.
     lenis?.scrollTo(0, { immediate: true, force: true });
+    if (!isNavigation) return;
 
     const mm = gsap.matchMedia();
     mm.add(MOTION.ok, () => {
