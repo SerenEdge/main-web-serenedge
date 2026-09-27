@@ -170,7 +170,7 @@ export function ClientPortal() {
               ).map(([t, st, cls]) => (
                 <li key={t} className="flex flex-wrap items-center justify-between gap-3 border-t border-line py-3 text-sm sm:flex-nowrap">
                   <span>{t}</span>
-                  <em className={cn("whitespace-nowrap rounded-sm px-[9px] py-1 font-mono text-[11px] not-italic", cls)}>{st}</em>
+                  <em className={cn("whitespace-nowrap rounded-sm px-[9px] py-1 font-sans text-[11px] font-medium not-italic", cls)}>{st}</em>
                 </li>
               ))}
             </ul>
