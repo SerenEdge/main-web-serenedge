@@ -7,6 +7,7 @@ import "lenis/dist/lenis.css";
 import { Footer } from "@/components/layout/Footer";
 import { Nav } from "@/components/layout/Nav";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
+import { SceneBackground } from "@/scene/SceneBackground";
 
 const geist = localFont({
   src: "./fonts/geist-latin.woff2",
@@ -50,8 +51,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           >
             Skip to content
           </a>
+          <SceneBackground />
           <Nav />
-          <main id="main" tabIndex={-1} className="focus:outline-none">
+          <main id="main" tabIndex={-1} className="relative z-[1] focus:outline-none">
             {children}
           </main>
           <Footer />

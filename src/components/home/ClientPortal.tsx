@@ -94,6 +94,7 @@ export function ClientPortal() {
   return (
     <section
       ref={ref}
+      data-section
       aria-labelledby="clients"
       className="band px-(--gutter) pb-[clamp(24px,3vw,40px)] pt-[clamp(40px,4vw,56px)] pin:pt-0"
     >

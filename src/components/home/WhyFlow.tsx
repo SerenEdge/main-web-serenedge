@@ -195,7 +195,7 @@ export function WhyFlow() {
   );
 
   return (
-    <section ref={ref} aria-labelledby="why" className="px-(--gutter) pb-[clamp(40px,4vw,56px)] pt-(--section-y)">
+    <section ref={ref} data-section aria-labelledby="why" className="px-(--gutter) pb-[clamp(40px,4vw,56px)] pt-(--section-y)">
       <div className="flex flex-col gap-12 max-lg:gap-10">
         <SectionIntro
           id="why"

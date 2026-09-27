@@ -47,7 +47,7 @@ export function HowSteps() {
   );
 
   return (
-    <section ref={ref} aria-labelledby="how" className="band px-(--gutter) pb-[clamp(64px,7vw,104px)] pt-(--section-y)">
+    <section ref={ref} data-section aria-labelledby="how" className="band px-(--gutter) pb-[clamp(64px,7vw,104px)] pt-(--section-y)">
       <div className="flex flex-col gap-[clamp(40px,5vw,72px)]">
         <SectionIntro
           id="how"

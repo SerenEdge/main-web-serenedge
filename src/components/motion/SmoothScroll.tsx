@@ -4,9 +4,15 @@ import { ReactLenis, useLenis, type LenisRef } from "lenis/react";
 import { useEffect, useRef } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { useReducedMotion } from "@/lib/use-reduced-motion";
+import { motion } from "@/scene/store";
 
 function ScrollTriggerSync() {
-  useLenis(ScrollTrigger.update);
+  useLenis((lenis) => {
+    // Feed the home 3D scene (dot parallax + stretch) without re-rendering React.
+    motion.scrollY = lenis.scroll;
+    motion.velocity = lenis.velocity;
+    ScrollTrigger.update();
+  });
   return null;
 }
 

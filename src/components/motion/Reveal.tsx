@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, type ElementType, type ReactNode } from "react";
+import { useRef, type ElementType, type HTMLAttributes, type RefAttributes, type ReactNode } from "react";
 import { gsap, MOTION, useGSAP } from "@/lib/gsap";
 
 type Props = {
@@ -17,7 +17,8 @@ type Props = {
 
 export function Reveal({ as = "div", className, children, stagger = 0.08, y = 24, delay = 0, selector, id }: Props) {
   const ref = useRef<HTMLElement>(null);
-  const Tag = as as ElementType;
+  // Typed props: a bare ElementType also spans the R3F JSX elements and collapses to never.
+  const Tag = as as ElementType<HTMLAttributes<HTMLElement> & RefAttributes<HTMLElement>>;
 
   useGSAP(
     () => {

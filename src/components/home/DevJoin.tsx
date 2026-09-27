@@ -5,7 +5,7 @@ import { SITE } from "@/lib/site";
 
 export function DevJoin() {
   return (
-    <section aria-labelledby="devs" className="px-(--gutter) py-[clamp(8px,2vw,24px)]">
+    <section data-section aria-labelledby="devs" className="px-(--gutter) py-[clamp(8px,2vw,24px)]">
       <Reveal>
         <div className="flex flex-col items-start justify-between gap-8 rounded-lg border border-line bg-surface px-[clamp(24px,3.6vw,48px)] py-[clamp(28px,3.6vw,40px)] md:flex-row md:items-center">
           <div className="flex flex-col gap-2.5">

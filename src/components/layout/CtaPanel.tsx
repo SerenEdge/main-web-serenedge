@@ -50,7 +50,7 @@ export function CtaPanel({ accent, title, cta }: Props) {
   );
 
   return (
-    <section className="px-(--gutter) pb-(--section-y)">
+    <section data-section className="px-(--gutter) pb-(--section-y)">
       <div
         ref={ref}
         className="grid items-end gap-[clamp(32px,4.4vw,64px)] rounded-lg bg-ink px-[clamp(24px,4.4vw,64px)] py-[clamp(40px,5vw,72px)] text-white max-sm:px-5 lg:grid-cols-[1.2fr_1fr]"

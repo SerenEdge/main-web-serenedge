@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, type ElementType, type ReactNode } from "react";
+import { useRef, type ElementType, type HTMLAttributes, type RefAttributes, type ReactNode } from "react";
 import { gsap, MOTION, SplitText, useGSAP } from "@/lib/gsap";
 
 type Props = {
@@ -14,7 +14,8 @@ type Props = {
 
 export function SplitHeading({ as = "h2", id, className, children, onLoad = false }: Props) {
   const ref = useRef<HTMLHeadingElement>(null);
-  const Tag = as as ElementType;
+  // Typed props: a bare ElementType also spans the R3F JSX elements and collapses to never.
+  const Tag = as as ElementType<HTMLAttributes<HTMLElement> & RefAttributes<HTMLElement>>;
 
   useGSAP(
     () => {

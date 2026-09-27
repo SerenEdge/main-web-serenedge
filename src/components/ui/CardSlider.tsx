@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, type ElementType, type KeyboardEvent, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ElementType, type HTMLAttributes, type RefAttributes, type KeyboardEvent, type ReactNode } from "react";
 import { cn } from "@/lib/cn";
 import { clampIndex, nearestSlide } from "./card-slider-math";
 
@@ -30,7 +30,8 @@ const pad = (n: number) => String(n).padStart(2, "0");
  * Below 901px: the same element becomes a full-bleed scroll-snap slider with a counter strip.
  */
 export function CardSlider({ as = "div", label, count, className, children }: Props) {
-  const Tag = as as ElementType;
+  // Typed props: a bare ElementType also spans the R3F JSX elements and collapses to never.
+  const Tag = as as ElementType<HTMLAttributes<HTMLElement> & RefAttributes<HTMLElement>>;
   const trackRef = useRef<HTMLElement>(null);
   const [active, setActive] = useState(0);
 

@@ -39,7 +39,7 @@ function FooterCol({ title, items, className }: { title: string; items: Item[]; 
 
 export function Footer() {
   return (
-    <footer className="border-t border-line bg-surface px-(--gutter) pt-[clamp(40px,4vw,56px)]">
+    <footer className="relative z-[1] border-t border-line bg-surface px-(--gutter) pt-[clamp(40px,4vw,56px)]">
       <div className="grid grid-cols-2 gap-x-5 gap-y-7 pb-[clamp(32px,3.6vw,48px)] max-lg:gap-y-8 min-[521px]:grid-cols-3 min-[521px]:gap-8 lg:grid-cols-[minmax(0,1.6fr)_repeat(3,minmax(0,1fr))]">
         <div className="col-span-full flex max-w-[320px] flex-col gap-3.5 lg:col-span-1">
           <Link href="/" aria-label="SerenEdge home" className="self-start">
