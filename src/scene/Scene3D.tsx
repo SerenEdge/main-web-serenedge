@@ -77,7 +77,7 @@ function Hero({ still }: { still: boolean }) {
   return (
     <>
       <HeroClouds still={still} mobile={mobile} spread={Math.min(1, Math.max(0.45, plane.width / 13.3))} />
-      <LogoPlane width={logoWidth} still={still} />
+      <LogoPlane width={logoWidth} />
       <Intro still={still} />
     </>
   );
