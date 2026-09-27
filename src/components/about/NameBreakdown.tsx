@@ -38,9 +38,9 @@ export function NameBreakdown() {
 
   return (
     <section ref={ref} aria-labelledby="name" className="band px-(--gutter) py-(--section-y)">
-      <div className="flex flex-col gap-16">
+      <div className="flex flex-col gap-16 max-lg:gap-12">
         <SplitHeading id="name" className="type-h2">
-          <span className="text-accent">The name.</span> It says it plainly.
+          <span className="text-accent max-lg:block">The name.</span> It says it plainly.
         </SplitHeading>
         <div className="nm grid grid-cols-[auto_auto] justify-center">
           <span aria-hidden="true" className={cn("nm-seren", word)}>
@@ -51,13 +51,13 @@ export function NameBreakdown() {
           </span>
           <span aria-hidden="true" className={cn(bracket, "border-ink")} />
           <span aria-hidden="true" className={cn(bracket, "border-accent")} />
-          <div className={cn(meta, "pt-5")}>
+          <div className={cn(meta, "pt-5 max-sm:pt-8")}>
             <span className="eyebrow text-muted">01 · the root</span>
             <p className="text-[clamp(17px,1.4vw,20px)] leading-[1.55] text-muted">
               <b className="sr-only">Seren: </b>for Sri Lanka, where we&apos;re rooted.
             </p>
           </div>
-          <div className={cn(meta, "mt-4 border-t border-line pt-4 sm:mt-0 sm:border-t-0")}>
+          <div className={cn(meta, "mt-4 border-t border-line pt-4 sm:mt-0 sm:border-t-0 max-sm:mt-6 max-sm:pt-6")}>
             <span className="eyebrow text-accent">02 · the reach</span>
             <p className="text-[clamp(17px,1.4vw,20px)] leading-[1.55] text-muted">
               <b className="sr-only">Edge: </b>for the way we work: connecting through every node, reaching every layer of

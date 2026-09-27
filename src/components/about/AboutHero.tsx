@@ -27,7 +27,7 @@ function FounderLink() {
 
 export function AboutHero() {
   return (
-    <section className="grid items-center gap-[clamp(28px,4.4vw,64px)] px-(--gutter) pb-[clamp(56px,6vw,88px)] pt-[clamp(128px,14vw,192px)] lg:grid-cols-2">
+    <section className="grid items-center gap-[clamp(28px,4.4vw,64px)] px-(--gutter) pb-[clamp(56px,6vw,88px)] pt-[clamp(128px,14vw,192px)] lg:grid-cols-2 max-lg:gap-8">
       <SplitHeading as="h1" onLoad className="type-hero">
         Not one lane.<span className="block text-accent">Every node.</span>
       </SplitHeading>
