@@ -143,7 +143,7 @@ export function CardSlider({ as = "div", label, count, className, children }: Pr
               aria-label={`Go to card ${i + 1}`}
               aria-current={i === active ? "true" : undefined}
               onClick={() => go(i)}
-              className="flex h-11 items-center px-1.5"
+              className="flex h-11 min-w-11 items-center justify-center"
             >
               <span
                 className={cn(
