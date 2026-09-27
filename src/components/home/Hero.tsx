@@ -40,7 +40,7 @@ export function Hero() {
     >
       <div className="hero-inner flex max-w-[1060px] flex-col items-center gap-7">
         <p className="hero-kicker text-base font-medium leading-6 text-muted">
-          An IT studio from Sri Lanka, building for clients worldwide
+          An IT studio based in Sri Lanka
         </p>
         <h1 className="text-[clamp(52px,9.4vw,120px)] font-bold leading-[.93] tracking-[-.04em]">
           <span className="hero-line block overflow-hidden pb-[.06em]">
