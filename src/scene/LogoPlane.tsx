@@ -24,7 +24,8 @@ export function LogoPlane({ width, still }: { width: number; still: boolean }) {
     const i = motion.intro;
     mesh.current.position.y = LOGO_Y + (still ? 0 : Math.sin(clock.elapsedTime * 0.6) * 0.08);
     mesh.current.scale.setScalar((0.9 + 0.1 * i) * (1 + h * 0.3));
-    mat.current.opacity = Math.max(0, i - h * 1.4);
+    // Holds full strength through the first half of the exit, then fades.
+    mat.current.opacity = i * (1 - THREE.MathUtils.smoothstep(h, 0.5, 0.95));
     mesh.current.visible = mat.current.opacity > 0.001;
   });
 

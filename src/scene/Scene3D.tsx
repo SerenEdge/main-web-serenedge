@@ -72,7 +72,7 @@ function Hero({ still }: { still: boolean }) {
   const logoWidth = Math.min(3.4, plane.width * 0.62);
   return (
     <>
-      <HeroClouds still={still} mobile={mobile} />
+      <HeroClouds still={still} mobile={mobile} spread={Math.min(1, Math.max(0.45, plane.width / 13.3))} />
       <LogoPlane width={logoWidth} still={still} />
       <Intro still={still} />
     </>
@@ -105,6 +105,7 @@ export default function Scene3D({ still }: { still: boolean }) {
       aria-hidden="true"
       // lvh, not inset: 0, so a mobile URL bar showing/hiding doesn't resize (and rebuild) the scene.
       style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "100lvh", zIndex: 0, pointerEvents: "none" }}
+      flat // no tone mapping: ACES turns white clouds grey
       dpr={[1, dpr]}
       frameloop={hidden ? "never" : "always"}
       camera={{ fov: FOV, position: [0, 0, CAM_START], near: 0.1, far: 100 }}
@@ -117,9 +118,6 @@ export default function Scene3D({ still }: { still: boolean }) {
         }}
       />
       <AdaptiveDpr pixelated />
-      <ambientLight intensity={1.2} />
-      <directionalLight position={[2, 5, 3]} intensity={1.5} color="#ffffff" />
-      <directionalLight position={[0, -4, 2]} intensity={0.35} color="#5b8ac5" />
       <CameraRig />
       <Suspense fallback={null}>
         <Hero still={still} />

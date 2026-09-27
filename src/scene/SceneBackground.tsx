@@ -29,7 +29,7 @@ function HomeSky() {
     <div
       ref={ref}
       aria-hidden="true"
-      className="pointer-events-none fixed inset-x-0 top-0 z-0 h-lvh bg-[linear-gradient(180deg,var(--brand-blue)_0%,color-mix(in_oklab,var(--brand-blue)_28%,white)_42%,color-mix(in_oklab,var(--brand-blue)_8%,white)_72%,#fff_100%)]"
+      className="pointer-events-none fixed inset-x-0 top-0 z-0 h-lvh bg-[linear-gradient(180deg,color-mix(in_oklab,var(--brand-blue)_42%,white)_0%,color-mix(in_oklab,var(--brand-blue)_16%,white)_40%,color-mix(in_oklab,var(--brand-blue)_5%,white)_70%,#fff_100%)]"
     />
   );
 }

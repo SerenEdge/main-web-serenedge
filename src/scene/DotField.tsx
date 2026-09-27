@@ -7,7 +7,7 @@ import { buildDotAttributes, buildEdges, dotCount, infinityScale, mulberry32, ty
 import { dotFrag, dotVert, edgeFrag, edgeVert } from "./shaders";
 import { motion } from "./store";
 
-export const DOT_SIZE = 22;
+export const DOT_SIZE = 30; // px at the dot plane distance before DPR (~3.75px)
 export const FIELD_ALPHA = 0.35;
 export const REPEL_RADIUS = 0.9; // baked into the shader's smoothstep
 export const EDGE_NEIGHBORS = 2;
@@ -46,6 +46,17 @@ export const dotUniforms = {
   uEdgeOpacity: { value: EDGE_OPACITY },
 };
 const focusTarget = new THREE.Vector3();
+
+// Passed as constructor args: R3F props would not keep `uniforms` as this shared object.
+const DOT_MATERIAL = {
+  uniforms: dotUniforms,
+  vertexShader: dotVert,
+  fragmentShader: dotFrag,
+  transparent: true,
+  depthWrite: false,
+  blending: THREE.NormalBlending,
+};
+const EDGE_MATERIAL = { uniforms: dotUniforms, vertexShader: edgeVert, fragmentShader: edgeFrag, transparent: true, depthWrite: false };
 
 export function useDotData(plane: { width: number; height: number }, countScale: number): DotAttributes {
   const size = useThree((s) => s.size);
@@ -102,14 +113,7 @@ export function DotField({ data }: { data: DotAttributes }) {
   useEffect(() => () => geometry.dispose(), [geometry]);
   return (
     <points geometry={geometry} frustumCulled={false} renderOrder={4}>
-      <shaderMaterial
-        uniforms={dotUniforms}
-        vertexShader={dotVert}
-        fragmentShader={dotFrag}
-        transparent
-        depthWrite={false}
-        blending={THREE.NormalBlending}
-      />
+      <shaderMaterial args={[DOT_MATERIAL]} />
     </points>
   );
 }
@@ -151,7 +155,7 @@ export function InfinityEdges({ data, mobile }: { data: DotAttributes; mobile: b
 
   return (
     <lineSegments geometry={geometry} frustumCulled={false} renderOrder={5}>
-      <shaderMaterial uniforms={dotUniforms} vertexShader={edgeVert} fragmentShader={edgeFrag} transparent depthWrite={false} />
+      <shaderMaterial args={[EDGE_MATERIAL]} />
     </lineSegments>
   );
 }

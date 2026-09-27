@@ -45,7 +45,7 @@ for (let y = 0; y < SIZE; y++) {
     const n = fbm(x / 24, y / 24);
     const edge = Math.min(1, Math.max(0, (1 - r * (0.75 + 0.55 * n)) * 1.6));
     const a = Math.pow(edge, 1.6);
-    const shade = 235 + 20 * n; // faint internal variation
+    const shade = 246 + 12 * n; // faint internal variation
     const i = (y * SIZE + x) * 4;
     px[i] = px[i + 1] = px[i + 2] = Math.min(255, Math.round(shade));
     px[i + 3] = Math.round(a * 255);

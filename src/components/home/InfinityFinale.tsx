@@ -32,7 +32,7 @@ export function InfinityFinale() {
             reveal: 0.4,
             ease: "none",
             immediateRender: false,
-            scrollTrigger: { trigger: "footer", start: "top bottom", end: "top 40%", scrub: true },
+            scrollTrigger: { trigger: document.querySelector("footer"), start: "top bottom", end: "top 40%", scrub: true },
           },
         );
       });

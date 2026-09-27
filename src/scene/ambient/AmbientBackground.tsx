@@ -23,6 +23,14 @@ const ambientUniforms = {
   uOpacity: { value: 0 },
   uColor: { value: new THREE.Color() },
 };
+// Passed as constructor args: R3F props would not keep `uniforms` as this shared object.
+const AMBIENT_MATERIAL = {
+  uniforms: ambientUniforms,
+  vertexShader: ambientVert,
+  fragmentShader: ambientFrag,
+  transparent: true,
+  depthWrite: false,
+};
 
 function AmbientDots({ still }: { still: boolean }) {
   const group = useRef<THREE.Group>(null!);
@@ -86,13 +94,7 @@ function AmbientDots({ still }: { still: boolean }) {
   return (
     <group ref={group}>
       <points geometry={geometry} frustumCulled={false}>
-        <shaderMaterial
-          uniforms={ambientUniforms}
-          vertexShader={ambientVert}
-          fragmentShader={ambientFrag}
-          transparent
-          depthWrite={false}
-        />
+        <shaderMaterial args={[AMBIENT_MATERIAL]} />
       </points>
     </group>
   );
