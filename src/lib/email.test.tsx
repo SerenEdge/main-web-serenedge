@@ -32,6 +32,23 @@ describe("helpers", () => {
     });
     expect(getEmailConfig({ RESEND_API_KEY: "re_x", CONTACT_TO_EMAIL: "a@b.co" }).to).toBe("a@b.co");
   });
+  it("getEmailConfig strips accidental wrapping quotes from env values", () => {
+    // A common deploy-dashboard mistake: pasting the .env.example line's quoted
+    // value (correct for dotenv, which strips quotes) verbatim into a host that
+    // stores the value literally, quotes included — which Resend then rejects
+    // as an invalid `from` address.
+    expect(
+      getEmailConfig({
+        RESEND_API_KEY: "re_x",
+        CONTACT_FROM_EMAIL: '"SerenEdge <sales@serenedge.com>"',
+        CONTACT_TO_EMAIL: "'daham@serenedge.com'",
+      }),
+    ).toEqual({
+      apiKey: "re_x",
+      to: "daham@serenedge.com",
+      from: "SerenEdge <sales@serenedge.com>",
+    });
+  });
   it("firstNameOf takes the first word", () => {
     expect(firstNameOf("  José  Núñez ")).toBe("José");
   });

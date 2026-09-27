@@ -22,11 +22,20 @@ export type EmailPayload = {
   attachments: { filename: string; content: Buffer; contentId: string }[];
 };
 
+// Strips one matching pair of leading/trailing quotes. Dashboards like Vercel's
+// store an env var's value literally — if `.env.example`'s quoted format
+// (correct for dotenv, which strips quotes) gets pasted in as-is, the quotes
+// become part of the value and Resend rejects the resulting `from` address.
+function unquote(value: string): string {
+  const match = value.match(/^(['"])(.*)\1$/);
+  return match ? match[2] : value;
+}
+
 export function getEmailConfig(env: Record<string, string | undefined> = process.env) {
   return {
     apiKey: env.RESEND_API_KEY?.trim() || null,
-    to: env.CONTACT_TO_EMAIL?.trim() || DEFAULT_TO,
-    from: env.CONTACT_FROM_EMAIL?.trim() || DEFAULT_FROM,
+    to: unquote(env.CONTACT_TO_EMAIL?.trim() || DEFAULT_TO),
+    from: unquote(env.CONTACT_FROM_EMAIL?.trim() || DEFAULT_FROM),
   };
 }
 
