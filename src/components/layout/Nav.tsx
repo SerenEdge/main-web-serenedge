@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
 import { NAV } from "@/lib/site";
+import { HomeLink } from "./HomeLink";
 
 export function Nav() {
   const pathname = usePathname();
@@ -42,9 +43,9 @@ export function Nav() {
         ref={headerRef}
         className="pointer-events-auto relative flex h-[68px] w-full max-w-[560px] items-center gap-4 rounded-lg border border-line bg-white/85 pl-5 pr-3 shadow-2 backdrop-blur-[14px] lg:w-auto lg:max-w-none lg:gap-12 lg:pl-[26px] lg:pr-4"
       >
-        <Link href="/" aria-label="SerenEdge home" className="shrink-0">
+        <HomeLink className="shrink-0" onNavigate={() => setOpenOn(null)}>
           <Image src="/img/logo.webp" alt="SerenEdge" width={56} height={30} preload className="h-[30px] w-auto" />
-        </Link>
+        </HomeLink>
 
         <button
           type="button"

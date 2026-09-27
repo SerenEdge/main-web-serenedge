@@ -4,6 +4,7 @@ import { InfMark } from "@/components/ui/InfMark";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { cn } from "@/lib/cn";
 import { SITE } from "@/lib/site";
+import { HomeLink } from "./HomeLink";
 
 type Item = { href: string; label: string };
 
@@ -42,9 +43,9 @@ export function Footer() {
     <footer className="relative z-[1] border-t border-line bg-surface px-(--gutter) pt-7">
       <div className="grid grid-cols-2 gap-x-5 gap-y-6 pb-7 lg:grid-cols-[minmax(0,2fr)_repeat(2,minmax(0,1fr))] lg:gap-8">
         <div className="col-span-full flex max-w-[320px] flex-col gap-2.5 lg:col-span-1">
-          <Link href="/" aria-label="SerenEdge home" className="self-start">
+          <HomeLink className="self-start">
             <Image src="/img/logo.webp" alt="SerenEdge" width={56} height={30} className="h-[26px] w-auto" />
-          </Link>
+          </HomeLink>
           <p className="text-sm leading-relaxed text-muted">{SITE.tagline}</p>
         </div>
         <FooterCol
