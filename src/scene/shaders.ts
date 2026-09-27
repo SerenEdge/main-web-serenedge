@@ -8,6 +8,11 @@ attribute vec3 aField;
 attribute vec3 aOff;
 attribute float aRandom, aT;
 
+// Magnifying lens around the cursor (field state only).
+const float LENS_R = 1.6; // world units
+const float LENS_K = 0.6; // magnification at the pointer: 1 + LENS_K
+float lensW; // 0..1 lens weight of this dot, set by dotPosition()
+
 vec3 lemniscate(float t) {
   float s = sin(t), c = cos(t), d = 1.0 + s * s;
   return vec3(uScale * c / d, uScale * s * c / d, 0.0);
@@ -22,6 +27,13 @@ vec3 dotPosition(out vec3 f, out float g) {
   f.y += cos(uTime * 0.3 + aField.x * 0.55 + aRandom * 1.5) * 0.1;
   f.y = mod(f.y + uScrollY * 0.0015 + uFieldH * 0.5, uFieldH) - uFieldH * 0.5;
   f.y += uVelocity * 0.0004 * aRandom; // tiny stretch when scrolling fast
+
+  // lens: dots under the cursor spread out from the pointer, as if magnified.
+  // (1 - r/R)^2 falloff keeps the warp monotonic, so dots never cross over each other.
+  vec2 d = f.xy - uMouse;
+  float x = clamp(length(d) / LENS_R, 0.0, 1.0);
+  lensW = (1.0 - x) * (1.0 - x) * uHover;
+  f.xy = uMouse + d * (1.0 + LENS_K * lensW);
 
   // 2. infinity target, flowing along the curve
   vec3 inf = lemniscate(aT + uFlow) + aOff * uBand;
@@ -46,9 +58,8 @@ void main() {
 
   float tw = 0.85 + 0.15 * sin(uTime * 1.3 + aRandom * 20.0);
   // Big and faint in the field; shrinks as it gathers so the ∞ stays crisp.
-  // Dots nearest the cursor grow a little (no push); off on touch and once gathered.
-  float hover = smoothstep(1.3, 0.0, length(f.xy - uMouse)) * uHover;
-  gl_PointSize = uSize * uPixelRatio * tw * mix(1.0, 0.9, g) * (1.0 + 0.5 * hover) * (1.0 / -mv.z);
+  // Magnified dots grow by the same factor they spread by; off on touch and once gathered.
+  gl_PointSize = uSize * uPixelRatio * tw * mix(1.0, 0.9, g) * (1.0 + LENS_K * lensW) * (1.0 / -mv.z);
 
   vGlow = uFocus.z * smoothstep(2.2, 0.0, length(f.xy - uFocus.xy)) * (1.0 - g);
   vAlpha = uReveal * mix(uFieldAlpha, 0.95, g);

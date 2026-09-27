@@ -9,7 +9,7 @@ import { motion } from "./store";
 
 export const DOT_SIZE = 44; // px at the dot plane distance before DPR (~5.5px in the field)
 export const FIELD_ALPHA = 0.16;
-export const HOVER_RADIUS = 1.3; // baked into the shader: dots within it grow up to 1.5x
+// Cursor lens: LENS_R / LENS_K live in shaders.ts (radius 1.6 world units, up to 1.6x magnification).
 export const EDGE_NEIGHBORS = 2;
 export const EDGE_CROSS_P = 0.25;
 export const EDGE_OPACITY = 0.35;
@@ -97,7 +97,7 @@ export function useDotUniformSync(plane: { width: number; height: number }, mobi
     u.uDraw.value = motion.draw;
     u.uFlow.value = motion.flow;
     u.uHover.value = motion.touch ? 0 : 1 - motion.gather;
-    // Eased, so the highlight glides after the pointer instead of snapping.
+    // Eased, so the lens glides after the pointer instead of snapping.
     mouseTarget.set((motion.mouse.x * plane.width) / 2, (motion.mouse.y * plane.height) / 2);
     u.uMouse.value.lerp(mouseTarget, 0.12);
     focusTarget.set((motion.focus.x * plane.width) / 2, (motion.focus.y * plane.height) / 2, motion.focus.strength);
