@@ -40,9 +40,9 @@ describe("lemniscate", () => {
 
 describe("counts", () => {
   it("scales the home dot count by viewport width", () => {
-    expect(dotCount(375)).toBe(900);
-    expect(dotCount(900)).toBe(1500);
-    expect(dotCount(1440)).toBe(2200);
+    expect(dotCount(375)).toBe(600);
+    expect(dotCount(900)).toBe(1000);
+    expect(dotCount(1440)).toBe(1500);
   });
 
   it("scales the ambient dot count by viewport width", () => {

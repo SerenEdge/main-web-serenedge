@@ -33,9 +33,9 @@ export function lemniscate(t: number, a: number): [number, number] {
 }
 
 export function dotCount(width: number): number {
-  if (width < 768) return 900;
-  if (width < 1024) return 1500;
-  return 2200;
+  if (width < 768) return 600;
+  if (width < 1024) return 1000;
+  return 1500;
 }
 
 export function ambientCount(width: number): number {

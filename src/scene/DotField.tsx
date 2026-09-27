@@ -7,7 +7,7 @@ import { buildDotAttributes, buildEdges, dotCount, infinityScale, mulberry32, ty
 import { dotFrag, dotVert, edgeFrag, edgeVert } from "./shaders";
 import { motion } from "./store";
 
-export const DOT_SIZE = 56; // px at the dot plane distance before DPR (~7px in the field)
+export const DOT_SIZE = 44; // px at the dot plane distance before DPR (~5.5px in the field)
 export const FIELD_ALPHA = 0.16;
 export const REPEL_RADIUS = 0.9; // baked into the shader's smoothstep
 export const EDGE_NEIGHBORS = 2;
