@@ -71,7 +71,7 @@ export function CheatModal() {
           You found the cheat code.
         </h2>
         <p className="text-lg leading-relaxed text-muted">
-          I have nothing much to say, just a thank you to my girl, MILO. Thank you for always believing in me and
+          I have nothing much to say, just a thank you to my girl, Sanu. Thank you for always believing in me and
           supporting me.
         </p>
         <Eyebrow tone="soft">Founder&apos;s msg</Eyebrow>
