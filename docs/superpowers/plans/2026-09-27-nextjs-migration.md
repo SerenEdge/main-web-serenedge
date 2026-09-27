@@ -1007,7 +1007,13 @@ function ScrollTriggerSync() {
 /**
  * One Lenis instance for the whole site, driven by GSAP's ticker so smooth
  * scroll and ScrollTrigger share a single RAF loop. Off under reduced motion.
- * Lenis renders as a sibling (root mode) so toggling it never remounts the page.
+ *
+ * `children` renders INSIDE `<ReactLenis root>`, not as its sibling: the
+ * component wraps its children in `LenisContext.Provider`, so anything
+ * elsewhere in the tree calling `useLenis()` (Nav, ToolMarquee, PageTransition)
+ * only sees the real instance if it is a descendant of this provider. `root`
+ * only changes where Lenis attaches its scroll listener (window vs a wrapper
+ * div); it does not change React's context rules.
  */
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
   const lenisRef = useRef<LenisRef>(null);
@@ -1028,20 +1034,20 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     document.fonts?.ready.then(() => ScrollTrigger.refresh());
   }, []);
 
+  if (reduced) return <>{children}</>;
+
   return (
-    <>
-      {!reduced && (
-        <ReactLenis root ref={lenisRef} options={{ autoRaf: false, lerp: 0.1, smoothWheel: true, anchors: true }}>
-          <ScrollTriggerSync />
-        </ReactLenis>
-      )}
+    <ReactLenis root ref={lenisRef} options={{ autoRaf: false, lerp: 0.1, smoothWheel: true, anchors: true }}>
+      <ScrollTriggerSync />
       {children}
-    </>
+    </ReactLenis>
   );
 }
 ```
 
 If TypeScript rejects an option (`anchors` arrived in lenis 1.2), check the installed version's `LenisOptions` type and drop only that option. Without `anchors`, add a click handler on the skip link that calls `lenis.scrollTo("#main")`.
+
+**Verify the context claim against the installed package** before relying on it: after `npm i lenis`, check `node_modules/lenis/react/dist/*.d.ts` (or the built JS) for how `ReactLenis` renders `children` in root mode. If it truly renders them outside its own `LenisContext.Provider` in root mode (unlikely, but the installed version may differ from what's described above), keep `children` nested as shown here regardless — nesting is what makes `useLenis()` work anywhere else in the tree, which the rest of this plan depends on.
 
 - [ ] **Step 4: Create `src/components/motion/Reveal.tsx`**
 
