@@ -6,9 +6,13 @@ import { usePathname } from "next/navigation";
 import { useLenis } from "lenis/react";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
+import { Toast } from "@/components/ui/Toast";
+import { recordClick } from "@/lib/click-burst";
 import { cn } from "@/lib/cn";
 import { NAV } from "@/lib/site";
 import { HomeLink } from "./HomeLink";
+
+const EGG_SUBJECT = "dgb#rwf";
 
 export function Nav() {
   const pathname = usePathname();
@@ -17,6 +21,16 @@ export function Nav() {
   const open = openOn === pathname;
   const headerRef = useRef<HTMLElement>(null);
   const lenis = useLenis();
+
+  // Easter egg: 5 clicks on the logo within 1.5s.
+  const [eggOpen, setEggOpen] = useState(false);
+  const clickTimestamps = useRef<number[]>([]);
+  const onLogoClick = () => {
+    setOpenOn(null);
+    const { timestamps, triggered } = recordClick(clickTimestamps.current, Date.now());
+    clickTimestamps.current = timestamps;
+    if (triggered) setEggOpen(true);
+  };
 
   useEffect(() => {
     if (open) lenis?.stop();
@@ -43,7 +57,7 @@ export function Nav() {
         ref={headerRef}
         className="pointer-events-auto relative flex h-[68px] w-full max-w-[560px] items-center gap-4 rounded-lg border border-line bg-white/85 pl-5 pr-3 shadow-2 backdrop-blur-[14px] lg:w-auto lg:max-w-none lg:gap-12 lg:pl-[26px] lg:pr-4"
       >
-        <HomeLink className="shrink-0" onNavigate={() => setOpenOn(null)}>
+        <HomeLink className="shrink-0" onNavigate={onLogoClick}>
           <Image src="/img/logo.webp" alt="SerenEdge" width={56} height={30} preload className="h-[30px] w-auto" />
         </HomeLink>
 
@@ -103,6 +117,10 @@ export function Nav() {
           </Button>
         </div>
       </header>
+
+      <Toast open={eggOpen} onClose={() => setEggOpen(false)}>
+        Found something? Send a mail, subject only: <span className="font-mono text-[13px]">{EGG_SUBJECT}</span>
+      </Toast>
     </div>
   );
 }
