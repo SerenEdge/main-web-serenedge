@@ -11,7 +11,7 @@ import { SentState } from "./SentState";
 
 const INITIAL: ContactState = { status: "idle" };
 const fieldCls =
-  "min-h-12 w-full rounded-sm border border-line bg-white px-3.5 text-[15px] transition-[border-color,box-shadow] duration-150 placeholder:text-soft focus:border-accent focus:shadow-[0_0_0_3px_rgba(91,138,197,.2)] focus:outline-none aria-[invalid=true]:border-danger";
+  "min-h-12 w-full rounded-sm border border-line bg-white px-3.5 text-[15px] transition-[border-color,box-shadow] duration-150 placeholder:text-soft focus:border-accent focus:shadow-[0_0_0_3px_rgba(91,138,197,.2)] focus:outline-none aria-[invalid=true]:border-danger max-lg:text-base";
 const fsCls = "flex min-w-0 flex-col gap-5 border-0 px-5 py-6 sm:px-10 sm:py-8";
 
 function StepHead({ n, children }: { n: number; children: React.ReactNode }) {
@@ -98,7 +98,7 @@ export function ContactForm({ initialTopic, onReset }: { initialTopic: TopicSlug
         <legend className="sr-only">Topic</legend>
         <StepHead n={1}>What&apos;s it about?</StepHead>
         <input type="hidden" name="topic" value={topic} />
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex flex-wrap gap-1.5 max-lg:gap-2">
           {TOPICS.map((t) => {
             const on = topic === t.slug;
             return (
@@ -108,7 +108,7 @@ export function ContactForm({ initialTopic, onReset }: { initialTopic: TopicSlug
                 aria-pressed={on}
                 onClick={() => setTopic(t.slug)}
                 className={cn(
-                  "h-8 shrink-0 whitespace-nowrap rounded-full border px-2.5 text-xs font-medium transition-[background-color,border-color,color,transform] duration-150 active:scale-95",
+                  "h-8 shrink-0 whitespace-nowrap rounded-full border px-2.5 text-xs font-medium transition-[background-color,border-color,color,transform] duration-150 active:scale-95 max-lg:h-10 max-lg:px-4 max-lg:text-sm",
                   on ? "border-ink bg-ink text-white" : "border-line bg-white hover:border-accent",
                 )}
               >
