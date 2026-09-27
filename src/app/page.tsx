@@ -3,7 +3,7 @@ import { SplitHeading } from "@/components/motion/SplitHeading";
 
 export default function HomePage() {
   return (
-    <main className="px-(--gutter)">
+    <div className="px-(--gutter)">
       <section className="flex min-h-svh items-center">
         <SplitHeading as="h1" onLoad className="type-hero">
           SerenEdge <span className="text-accent">for each node.</span>
@@ -19,6 +19,6 @@ export default function HomePage() {
           </Reveal>
         </section>
       ))}
-    </main>
+    </div>
   );
 }

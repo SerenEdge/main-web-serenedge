@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import "lenis/dist/lenis.css";
+import { Footer } from "@/components/layout/Footer";
+import { Nav } from "@/components/layout/Nav";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 
 const geist = localFont({
@@ -35,7 +37,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${geist.variable} ${geistMono.variable} ${candid.variable}`}>
       <body className="bg-white font-sans text-base leading-normal text-ink antialiased">
-        <SmoothScroll>{children}</SmoothScroll>
+        <SmoothScroll>
+          <a
+            href="#main"
+            className="absolute -top-16 left-4 z-[100] rounded-md bg-ink px-4 py-2.5 text-white transition-[top] focus:top-3"
+          >
+            Skip to content
+          </a>
+          <Nav />
+          <main id="main" tabIndex={-1} className="focus:outline-none">
+            {children}
+          </main>
+          <Footer />
+        </SmoothScroll>
       </body>
     </html>
   );
