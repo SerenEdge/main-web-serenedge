@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRef } from "react";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
+import { CardSlider, SLIDE_CLASS } from "@/components/ui/CardSlider";
 import { SectionIntro } from "@/components/ui/SectionIntro";
 import { cn } from "@/lib/cn";
 import { gsap, MOTION, useGSAP } from "@/lib/gsap";
@@ -15,8 +16,10 @@ export function HowSteps() {
     () => {
       const mm = gsap.matchMedia();
       mm.add(
-        MOTION.ok,
-        () => {
+        { ok: MOTION.ok, wide: "(min-width: 901px)" },
+        (ctx) => {
+          const { ok, wide } = ctx.conditions as { ok: boolean; wide: boolean };
+          if (!ok) return;
           gsap.from(".how-step", {
             autoAlpha: 0,
             y: 28,
@@ -25,6 +28,7 @@ export function HowSteps() {
             ease: "expo.out",
             scrollTrigger: { trigger: ".how-steps", start: "top 80%", once: true },
           });
+          if (!wide) return;
           const tl = gsap.timeline({
             defaults: { ease: "none" },
             scrollTrigger: { trigger: ".how-steps", start: "top 85%", end: "top 35%", scrub: true },
@@ -51,11 +55,19 @@ export function HowSteps() {
           title={'From "what if" to in production, in four steps.'}
           lead="Every engagement runs the same way. Predictable cadence, transparent progress, no agency-deck fluff."
         />
-        <ol className="how-steps grid gap-8 sm:grid-cols-2 xl:grid-cols-4">
+        <CardSlider as="ol" label="How we work steps" count={PROCESS.length} className="how-steps grid gap-8 sm:grid-cols-2 xl:grid-cols-4">
           {PROCESS.map((s, n) => {
             const last = n === PROCESS.length - 1;
             return (
-              <li key={s.num} className="how-step flex flex-col gap-4">
+              <li
+                key={s.num}
+                data-slide
+                className={cn(
+                  "how-step flex flex-col gap-4",
+                  SLIDE_CLASS,
+                  "max-lg:rounded-lg max-lg:border max-lg:border-line max-lg:bg-white max-lg:p-6",
+                )}
+              >
                 <div className="flex items-center gap-3">
                   <span
                     className={cn(
@@ -66,18 +78,18 @@ export function HowSteps() {
                     {s.num}
                   </span>
                   {!last && (
-                    <span className="relative h-0.5 grow overflow-hidden rounded-[2px] bg-line-2">
+                    <span className="relative h-0.5 grow overflow-hidden rounded-[2px] bg-line-2 max-lg:hidden">
                       <span className="how-line absolute inset-0 origin-left bg-accent" />
                     </span>
                   )}
                 </div>
                 <span className="eyebrow mt-2 text-muted">{s.tag}</span>
                 <h3 className="font-display text-[26px] font-bold leading-[1.23]">{s.title}</h3>
-                <p className="text-[15px] leading-relaxed text-muted">{s.homeText}</p>
+                <p className="text-[15px] leading-relaxed text-muted max-lg:text-base">{s.homeText}</p>
               </li>
             );
           })}
-        </ol>
+        </CardSlider>
         <Link
           href="/services"
           className="group inline-flex items-center gap-2 self-start text-base font-medium transition-colors hover:text-accent"

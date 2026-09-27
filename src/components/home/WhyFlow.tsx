@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { InfMark } from "@/components/ui/InfMark";
 import { SectionIntro } from "@/components/ui/SectionIntro";
+import { CardSlider, SLIDE_CLASS } from "@/components/ui/CardSlider";
 import { cn } from "@/lib/cn";
 import { gsap, MOTION, useGSAP } from "@/lib/gsap";
 import { SITE } from "@/lib/site";
@@ -104,20 +105,20 @@ function PortalVignette() {
 
 function Step({ vignette, eyebrow, title, children }: { vignette: React.ReactNode; eyebrow: string; title: string; children: React.ReactNode }) {
   return (
-    <article className="why-step flex min-w-0 flex-col gap-3">
+    <article data-slide className={cn("why-step flex min-w-0 flex-col gap-3", SLIDE_CLASS)}>
       <div aria-hidden="true" className="vig-bg relative flex h-[200px] items-center justify-center overflow-hidden rounded-lg p-5">
         {vignette}
       </div>
       <span className="eyebrow mt-5 text-accent">{eyebrow}</span>
       <h3 className="font-display text-2xl font-bold leading-[1.23]">{title}</h3>
-      <p className="text-[15px] leading-relaxed text-muted">{children}</p>
+      <p className="text-[15px] leading-relaxed text-muted max-lg:text-base">{children}</p>
     </article>
   );
 }
 
 function WhyLink() {
   return (
-    <span aria-hidden="true" className="relative flex h-14 items-center justify-center text-accent lg:h-[200px]">
+    <span aria-hidden="true" className="relative flex h-14 items-center justify-center text-accent lg:h-[200px] max-lg:hidden">
       <span className="why-line absolute inset-y-0 left-1/2 border-l border-dashed border-line-2 lg:inset-x-0 lg:inset-y-auto lg:top-1/2 lg:left-0 lg:origin-left lg:border-l-0 lg:border-t" />
       <span className="why-inf relative bg-white px-1.5 py-1">
         <InfMark className="block h-[9px] w-[18px] xl:h-[13px] xl:w-[26px]" />
@@ -195,14 +196,18 @@ export function WhyFlow() {
 
   return (
     <section ref={ref} aria-labelledby="why" className="px-(--gutter) pb-[clamp(40px,4vw,56px)] pt-(--section-y)">
-      <div className="flex flex-col gap-12">
+      <div className="flex flex-col gap-12 max-lg:gap-10">
         <SectionIntro
           id="why"
           accent="Why SerenEdge."
           title="Rapid to build. Easy to follow."
           lead="Every project runs on the SerenEdge Delivery Platform: plan it once, build it with AI, and watch it ship. Projects land on time and on budget."
         />
-        <div className="why-flow grid grid-cols-1 items-start lg:grid-cols-[minmax(0,1fr)_32px_minmax(0,1fr)_32px_minmax(0,1fr)] xl:grid-cols-[minmax(0,1fr)_56px_minmax(0,1fr)_56px_minmax(0,1fr)]">
+        <CardSlider
+          label="Why SerenEdge"
+          count={3}
+          className="why-flow grid grid-cols-1 items-start lg:grid-cols-[minmax(0,1fr)_32px_minmax(0,1fr)_32px_minmax(0,1fr)] xl:grid-cols-[minmax(0,1fr)_56px_minmax(0,1fr)_56px_minmax(0,1fr)]"
+        >
           <Step vignette={<TasksVignette />} eyebrow="01 · Rapid development" title="Built with AI, shipped fast.">
             Projects are planned once into well-defined tasks, each with context, requirements and guidance. Engineers build
             with AI coding tools, so you get working software sooner, with less decoding and rework.
@@ -220,7 +225,7 @@ export function WhyFlow() {
             </a>{" "}
             to follow your project any time. No account setup, no technical knowledge needed.
           </Step>
-        </div>
+        </CardSlider>
       </div>
     </section>
   );
