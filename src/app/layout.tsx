@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import "lenis/dist/lenis.css";
@@ -31,7 +31,11 @@ export const metadata: Metadata = {
   title: { default: "SerenEdge · IT studio from Sri Lanka", template: "%s · SerenEdge" },
   description:
     "SerenEdge is a deeply technical IT studio from Sri Lanka. Web platforms, IoT fleets, automations, custom systems and ML models, built by one team end to end.",
+  openGraph: { type: "website", siteName: "SerenEdge", locale: "en_US" },
+  twitter: { card: "summary_large_image" },
 };
+
+export const viewport: Viewport = { themeColor: "#ffffff" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
