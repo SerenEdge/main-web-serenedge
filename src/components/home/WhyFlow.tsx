@@ -5,6 +5,7 @@ import { InfMark } from "@/components/ui/InfMark";
 import { SectionIntro } from "@/components/ui/SectionIntro";
 import { CardSlider, SLIDE_CLASS } from "@/components/ui/CardSlider";
 import { cn } from "@/lib/cn";
+import { externalLinkProps } from "@/lib/external-link";
 import { gsap, MOTION, useGSAP } from "@/lib/gsap";
 import { SITE } from "@/lib/site";
 
@@ -220,7 +221,11 @@ export function WhyFlow() {
           <WhyLink />
           <Step vignette={<PortalVignette />} eyebrow="03 · Client portal" title="Monitor it yourself.">
             After you&apos;re on board, you get a secure invite to{" "}
-            <a className="underline underline-offset-3 transition-colors hover:text-accent" href={`${SITE.platformUrl}/client`} rel="noopener">
+            <a
+              className="underline underline-offset-3 transition-colors hover:text-accent"
+              href={`${SITE.platformUrl}/client`}
+              {...externalLinkProps(`${SITE.platformUrl}/client`)}
+            >
               platform.serenedge.com/client
             </a>{" "}
             to follow your project any time. No account setup, no technical knowledge needed.

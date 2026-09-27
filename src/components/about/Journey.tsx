@@ -6,6 +6,7 @@ import { SplitHeading } from "@/components/motion/SplitHeading";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
 import { CardSlider, SLIDE_CLASS } from "@/components/ui/CardSlider";
 import { cn } from "@/lib/cn";
+import { externalLinkProps } from "@/lib/external-link";
 import { gsap, MOTION, useGSAP } from "@/lib/gsap";
 import { SITE } from "@/lib/site";
 
@@ -87,7 +88,11 @@ export function Journey() {
             <h3 className="font-display text-[clamp(24px,2.2vw,30px)] font-bold leading-[1.2]">Delivery platform live</h3>
             <p className="max-w-[340px] text-base leading-relaxed text-muted text-pretty">
               Every project runs on{" "}
-              <a className="underline underline-offset-3 transition-colors hover:text-accent" href={SITE.platformUrl} rel="noopener">
+              <a
+                className="underline underline-offset-3 transition-colors hover:text-accent"
+                href={SITE.platformUrl}
+                {...externalLinkProps(SITE.platformUrl)}
+              >
                 platform.serenedge.com
               </a>
               : planned tasks, live deadlines and a portal clients can open any time.

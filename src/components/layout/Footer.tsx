@@ -3,6 +3,7 @@ import Link from "next/link";
 import { InfMark } from "@/components/ui/InfMark";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { cn } from "@/lib/cn";
+import { externalLinkProps } from "@/lib/external-link";
 import { SITE } from "@/lib/site";
 import { HomeLink } from "./HomeLink";
 
@@ -25,7 +26,7 @@ function FooterCol({ title, items, className }: { title: string; items: Item[]; 
             ) : (
               <a
                 href={it.href}
-                rel={it.href.startsWith("http") ? "noopener" : undefined}
+                {...externalLinkProps(it.href)}
                 className="text-[14.5px] text-ink transition-colors hover:text-accent max-lg:inline-flex max-lg:min-h-11 max-lg:items-center max-lg:text-base"
               >
                 {it.label}
@@ -69,7 +70,11 @@ export function Footer() {
         </span>
         <span>
           Built by{" "}
-          <a className="text-muted underline underline-offset-3 transition-colors hover:text-accent" href={SITE.founderUrl} rel="noopener">
+          <a
+            className="text-muted underline underline-offset-3 transition-colors hover:text-accent"
+            href={SITE.founderUrl}
+            {...externalLinkProps(SITE.founderUrl)}
+          >
             Daham Dissanayake
           </a>
         </span>

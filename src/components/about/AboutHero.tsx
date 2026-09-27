@@ -1,12 +1,17 @@
 import Image from "next/image";
 import { Reveal } from "@/components/motion/Reveal";
 import { SplitHeading } from "@/components/motion/SplitHeading";
+import { externalLinkProps } from "@/lib/external-link";
 import { SITE } from "@/lib/site";
 
 function FounderLink() {
   return (
     <span className="group relative inline-block">
-      <a className="underline underline-offset-3 transition-colors hover:text-accent" href={SITE.founderUrl} rel="noopener">
+      <a
+        className="underline underline-offset-3 transition-colors hover:text-accent"
+        href={SITE.founderUrl}
+        {...externalLinkProps(SITE.founderUrl)}
+      >
         Daham Dissanayake
       </a>
       <span

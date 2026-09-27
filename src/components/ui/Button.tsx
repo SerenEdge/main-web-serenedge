@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { cn } from "@/lib/cn";
+import { externalLinkProps } from "@/lib/external-link";
 import { ArrowIcon } from "./ArrowIcon";
 
 const variants = {
@@ -49,7 +50,7 @@ export function Button({ href, variant = "dark", size = "md", arrow = false, cla
     );
   }
   return (
-    <a href={href} className={cls} rel={href.startsWith("http") ? "noopener" : undefined}>
+    <a href={href} className={cls} {...externalLinkProps(href)}>
       {content}
     </a>
   );
