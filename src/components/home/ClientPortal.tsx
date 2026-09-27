@@ -27,7 +27,7 @@ export function ClientPortal() {
     <section
       data-section
       aria-labelledby="clients"
-      className="band px-(--gutter) pb-[clamp(24px,3vw,40px)] pt-[clamp(40px,4vw,56px)]"
+      className="band px-(--gutter) py-(--section-y)"
     >
       <div className="grid items-start gap-[clamp(32px,5vw,72px)] lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
         <div className="flex flex-col gap-7">
