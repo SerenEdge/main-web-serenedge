@@ -9,7 +9,7 @@ import { motion } from "./store";
 
 export const DOT_SIZE = 44; // px at the dot plane distance before DPR (~5.5px in the field)
 export const FIELD_ALPHA = 0.16;
-export const REPEL_RADIUS = 0.9; // baked into the shader's smoothstep
+export const REPEL_RADIUS = 2.0; // baked into the shader (push 0.45, ripple out to 3.2)
 export const EDGE_NEIGHBORS = 2;
 export const EDGE_CROSS_P = 0.25;
 export const EDGE_OPACITY = 0.35;
@@ -47,6 +47,7 @@ export const dotUniforms = {
   uEdgeOpacity: { value: EDGE_OPACITY },
 };
 const focusTarget = new THREE.Vector3();
+const mouseTarget = new THREE.Vector2();
 
 // Passed as constructor args: R3F props would not keep `uniforms` as this shared object.
 const DOT_MATERIAL = {
@@ -96,7 +97,9 @@ export function useDotUniformSync(plane: { width: number; height: number }, mobi
     u.uDraw.value = motion.draw;
     u.uFlow.value = motion.flow;
     u.uRepel.value = motion.touch ? 0 : 1 - motion.gather;
-    u.uMouse.value.set((motion.mouse.x * plane.width) / 2, (motion.mouse.y * plane.height) / 2);
+    // Eased, so the push and ripple trail the pointer instead of snapping.
+    mouseTarget.set((motion.mouse.x * plane.width) / 2, (motion.mouse.y * plane.height) / 2);
+    u.uMouse.value.lerp(mouseTarget, 0.12);
     focusTarget.set((motion.focus.x * plane.width) / 2, (motion.focus.y * plane.height) / 2, motion.focus.strength);
     u.uFocus.value.lerp(focusTarget, 0.06);
   });

@@ -17,15 +17,18 @@ vec3 lemniscate(float t) {
 vec3 dotPosition(out vec3 f, out float g) {
   // 1. field with slow drift and scroll parallax (wraps vertically)
   f = aField;
-  f.x += sin(uTime * 0.15 + aRandom * 6.2831) * 0.03;
-  f.y += cos(uTime * 0.12 + aRandom * 12.0) * 0.03;
+  // a slow wave rolling across the field (phase follows position, so neighbours move together)
+  f.x += sin(uTime * 0.35 + aField.y * 0.7 + aRandom * 1.5) * 0.1;
+  f.y += cos(uTime * 0.3 + aField.x * 0.55 + aRandom * 1.5) * 0.1;
   f.y = mod(f.y + uScrollY * 0.0015 + uFieldH * 0.5, uFieldH) - uFieldH * 0.5;
   f.y += uVelocity * 0.0004 * aRandom; // tiny stretch when scrolling fast
 
-  // 2. gentle cursor repel
+  // 2. cursor: push dots away, plus a ripple spreading out from the pointer
   vec2 d = f.xy - uMouse;
-  float rep = smoothstep(0.9, 0.0, length(d)) * uRepel;
-  f.xy += normalize(d + 1e-4) * rep * 0.12;
+  float dist = length(d);
+  vec2 dir = normalize(d + 1e-4);
+  f.xy += dir * smoothstep(2.0, 0.0, dist) * 0.45 * uRepel;
+  f.xy += dir * sin(dist * 5.0 - uTime * 4.0) * 0.06 * smoothstep(3.2, 0.3, dist) * uRepel;
 
   // 3. infinity target, flowing along the curve
   vec3 inf = lemniscate(aT + uFlow) + aOff * uBand;
