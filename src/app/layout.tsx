@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import "lenis/dist/lenis.css";
+import { SmoothScroll } from "@/components/motion/SmoothScroll";
 
 const geist = localFont({
   src: "./fonts/geist-latin.woff2",
@@ -32,7 +34,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${geist.variable} ${geistMono.variable} ${candid.variable}`}>
-      <body className="bg-white font-sans text-base leading-normal text-ink antialiased">{children}</body>
+      <body className="bg-white font-sans text-base leading-normal text-ink antialiased">
+        <SmoothScroll>{children}</SmoothScroll>
+      </body>
     </html>
   );
 }
