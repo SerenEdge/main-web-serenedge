@@ -116,12 +116,12 @@ export function ContactForm({ initialTopic, onReset }: { initialTopic: TopicSlug
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="flex flex-col gap-2">
             <label htmlFor="ct-name" className="text-sm font-semibold">Your name</label>
-            <input {...field("name")} type="text" maxLength={120} autoComplete="name" placeholder="Jane Smith" required className={fieldCls} />
+            <input {...field("name")} type="text" maxLength={120} autoComplete="name" placeholder="Your Name" required className={fieldCls} />
             {err("name")}
           </div>
           <div className="flex flex-col gap-2">
             <label htmlFor="ct-email" className="text-sm font-semibold">Email address</label>
-            <input {...field("email")} type="email" maxLength={254} autoComplete="email" placeholder="jane@company.com" required className={fieldCls} />
+            <input {...field("email")} type="email" maxLength={254} autoComplete="email" placeholder="you@company.com" required className={fieldCls} />
             {err("email")}
           </div>
           <div className="flex flex-col gap-2">
