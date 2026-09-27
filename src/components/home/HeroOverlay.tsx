@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/Button";
 import { gsap, MOTION, ScrollTrigger, SplitText, useGSAP } from "@/lib/gsap";
 import { motion } from "@/scene/store";
 
-const HERO_PIN = 0.9; // viewports the hero holds still
-const HERO_EXIT = 1.6; // viewports the fly-through runs over (continues after the pin releases)
+const HERO_PIN = 0.75; // viewports the hero holds still
+const HERO_EXIT = 1.5; // viewports the fly-through runs over (continues after the pin releases)
 
 /**
  * DOM layer of the 3D hero. The logo itself is drawn in the canvas between the
