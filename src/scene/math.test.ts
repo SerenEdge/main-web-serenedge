@@ -112,15 +112,15 @@ describe("buildDotAttributes", () => {
     expect(inOrder).toBeLessThan(700);
   });
 
-  it("keeps curve offsets inside a band about 0.36 thick", () => {
+  it("keeps curve offsets inside a band about 0.6 thick", () => {
     let maxXY = 0;
     for (let i = 0; i < 1000; i++) {
       maxXY = Math.max(maxXY, Math.abs(a.off[i * 3]), Math.abs(a.off[i * 3 + 1]));
-      expect(Math.abs(a.off[i * 3])).toBeLessThanOrEqual(0.18);
-      expect(Math.abs(a.off[i * 3 + 1])).toBeLessThanOrEqual(0.18);
-      expect(Math.abs(a.off[i * 3 + 2])).toBeLessThanOrEqual(0.45);
+      expect(Math.abs(a.off[i * 3])).toBeLessThanOrEqual(0.3);
+      expect(Math.abs(a.off[i * 3 + 1])).toBeLessThanOrEqual(0.3);
+      expect(Math.abs(a.off[i * 3 + 2])).toBeLessThanOrEqual(0.6);
     }
-    expect(maxXY).toBeGreaterThan(0.15);
+    expect(maxXY).toBeGreaterThan(0.25);
   });
 
   it("is deterministic for the same seed", () => {

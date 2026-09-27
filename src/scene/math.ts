@@ -5,8 +5,8 @@ const TAU = Math.PI * 2;
 
 export const FIELD_SPREAD = 1.3; // field covers this multiple of the visible plane
 export const INF_WIDTH = { desktop: 0.7, mobile: 0.8 };
-export const INF_BAND = 0.36;
-export const INF_BAND_Z = 0.45;
+export const INF_BAND = 0.6;
+export const INF_BAND_Z = 0.6;
 export const FIELD_JITTER = 0.02;
 export const FIELD_Z = 0.3;
 

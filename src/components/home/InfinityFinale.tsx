@@ -57,8 +57,8 @@ export function InfinityFinale() {
   );
 
   return (
-    <section id="infinity-finale" ref={ref} aria-labelledby="finale" className="relative h-svh">
-      <div id="finale-copy" className="absolute inset-x-0 bottom-[12vh] flex flex-col items-center gap-3 px-(--gutter) text-center">
+    <section id="infinity-finale" ref={ref} aria-labelledby="finale" className="relative h-[75svh]">
+      <div id="finale-copy" className="absolute inset-x-0 bottom-[6vh] flex flex-col items-center gap-3 px-(--gutter) text-center">
         <InfMark className="h-3.5 w-7 text-accent" />
         <h2 id="finale" className="type-h2 text-ink">
           Every node, connected.
