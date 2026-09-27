@@ -22,10 +22,12 @@ export function LogoPlane({ width, still }: { width: number; still: boolean }) {
   useFrame(({ clock }) => {
     const h = motion.hero;
     const i = motion.intro;
-    mesh.current.position.y = LOGO_Y + (still ? 0 : Math.sin(clock.elapsedTime * 0.6) * 0.08);
-    mesh.current.scale.setScalar((0.9 + 0.1 * i) * (1 + h * 0.3));
-    // Holds full strength through the first half of the exit, then fades.
-    mat.current.opacity = i * (1 - THREE.MathUtils.smoothstep(h, 0.5, 0.95));
+    // Recedes and lifts while the camera flies forward, so it grows only gently and rises with the page.
+    mesh.current.position.y = LOGO_Y + h * 2.5 + (still ? 0 : Math.sin(clock.elapsedTime * 0.6) * 0.08);
+    mesh.current.position.z = -h * 6;
+    mesh.current.scale.setScalar(0.9 + 0.1 * i);
+    // Holds through the first half of the exit, then fades as the next section arrives.
+    mat.current.opacity = i * (1 - THREE.MathUtils.smoothstep(h, 0.55, 0.95));
     mesh.current.visible = mat.current.opacity > 0.001;
   });
 

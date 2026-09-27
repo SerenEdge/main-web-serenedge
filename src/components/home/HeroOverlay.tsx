@@ -5,6 +5,9 @@ import { Button } from "@/components/ui/Button";
 import { gsap, MOTION, ScrollTrigger, SplitText, useGSAP } from "@/lib/gsap";
 import { motion } from "@/scene/store";
 
+const HERO_PIN = 0.9; // viewports the hero holds still
+const HERO_EXIT = 1.6; // viewports the fly-through runs over (continues after the pin releases)
+
 /**
  * DOM layer of the 3D hero. The logo itself is drawn in the canvas between the
  * cloud layers, so the heading carries the brand name for screen readers.
@@ -29,14 +32,17 @@ export function HeroOverlay() {
         });
         tl.from(".hero-fade", { autoAlpha: 0, y: 16, duration: 0.9, ease: "power3.out", stagger: 0.08 }, 0.5);
 
-        // Exit: pin for one more viewport while the camera flies up through the clouds.
+        // Exit: a pin, then the fly-through keeps running while the next section scrolls up
+        // underneath, so "Why SerenEdge" is ≈1/3 in view while the logo is still up (it fades out by ~3/4 in).
         gsap
           .timeline({
-            scrollTrigger: { trigger: ref.current, start: "top top", end: "+=100%", scrub: true, pin: true },
+            scrollTrigger: { trigger: ref.current, start: "top top", end: `+=${HERO_EXIT * 100}%`, scrub: true },
           })
           .to(motion, { hero: 1, ease: "none", duration: 1 }, 0)
           .to(motion, { reveal: 1, ease: "none", duration: 0.6 }, 0.4)
-          .to("#hero-overlay", { autoAlpha: 0, y: -40, ease: "none", duration: 0.6 }, 0);
+          .to("#hero-overlay", { autoAlpha: 0, y: -40, ease: "none", duration: 0.3 }, 0); // gone before the pin releases
+        // Pin created AFTER the timeline: a trigger made after a pin on the same element gets pushed back by the pin.
+        ScrollTrigger.create({ trigger: ref.current, start: "top top", end: `+=${HERO_PIN * 100}%`, pin: true });
       });
 
       mm.add(MOTION.reduce, () => {
