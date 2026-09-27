@@ -60,8 +60,8 @@ This rule is the core of the work; reviewers should treat any violation as Impor
 | Item | Today (at 390px) | New |
 |---|---|---|
 | Side margin | ~22px | 24px below 641px; 40px from 641 to 900px |
-| Space between major sections | 72px | 96px |
-| Space between a section heading, its intro and its content | ~24-28px | 32-40px |
+| Section padding (`--section-y`) | 72px | 88px, tuned from screenshots within 80-96px |
+| Space between a section heading and its intro / between the intro and the content | ~28px / varies | 24px / 40px |
 | Body text | 15px | 16px, line-height 1.65 |
 | Intro ("lead") text | ~17px | 18px, line-height 1.6 |
 | Section headings | 34px, accent phrase run into the sentence | 34px; the accent phrase ("How we work.", "Toolbox.") sits on its own line, so the heading reads as title plus subtitle |
@@ -83,20 +83,20 @@ New file `src/components/ui/CardSlider.tsx`, client component.
 
 **Below 901px:**
 - **Track:** the wrapper becomes a horizontal flex track with `overflow-x: auto`, `scroll-snap-type: x mandatory`, a hidden scrollbar, 16px gap, and 24px side padding matching the page margin, so the first card lines up with page content and the last card can centre.
-- **Cards:** each card is about 85% of the track width (`max-lg:w-[85%]`, `shrink-0`, `snap-center`). A capped width at tablet widths (e.g. max 420px) keeps cards readable there.
+- **Cards:** each card is about 85% of the track width (`max-lg:w-[85%]`, `shrink-0`, `snap-start`, scroll-padding equal to the page margin), so each card lines up with the page margin and the next one peeks in on the right. Centre-snapping was rejected because with 24px margins the last card can't reach the centre. A capped width at tablet widths (max 420px) keeps cards readable there.
 - **Scroll:** native touch scrolling only. Lenis smooths wheel input and does not intercept touch, so no conflict; add `data-lenis-prevent` on the track only if wheel or trackpad horizontal scrolling misbehaves in testing.
 - **Counter strip** (`lg:hidden`) under the track:
   - a mono counter `01 / 04`;
   - a row of dot buttons, where the active dot animates from an 8px dot to a 24px accent pill (CSS width/background transition, 300ms, `ease-out-expo`) and inactive dots are `bg-line-2`.
 - **Active card tracking:** an `IntersectionObserver` on the cards, rooted at the track, threshold 0.6; the most-visible card is active. Fall back to a `scroll` listener with rAF if needed.
-- **Dot tap:** scrolls that card to centre with `scrollIntoView({ behavior, inline: "center", block: "nearest" })`, `behavior: "auto"` under reduced motion.
+- **Dot tap:** scrolls the track so that card lines up with the page margin (`track.scrollTo({ left: slide.offsetLeft - paddingLeft, behavior })`), with `behavior: "auto"` under reduced motion.
 - **Accessibility:**
   - the track is `role="region"` with `aria-roledescription="carousel"` and `aria-label={label}`;
   - each card is `role="group"` with `aria-roledescription="slide"` and `aria-label="{n} of {total}"`;
   - dots are `<button>`s with `aria-label="Go to card {n}"` and `aria-current="true"` on the active one;
   - the counter is `aria-live="polite"`;
   - the track is keyboard focusable (`tabIndex={0}`), and ArrowLeft/ArrowRight move to the previous or next card.
-- **Scroll reveals:** the existing `Reveal`/GSAP entrance animations must not fight the slider. A slider fades up as one group; per-card staggered reveals are turned off below 901px for any card that is inside a slider.
+- **Scroll reveals:** the existing per-card `Reveal`/GSAP entrance animations stay unchanged at every width, so desktop motion is untouched. Below 901px the cards off-screen to the right simply finish fading in before the visitor swipes to them.
 
 **Hydration:** the component renders the same markup on server and client. Width-dependent behaviour is CSS (`max-lg:`) plus effects that only attach listeners, so no hydration mismatch and no remount (see the SmoothScroll lesson in the migration's final review).
 
@@ -108,7 +108,7 @@ New file `src/components/ui/CardSlider.tsx`, client component.
 - **For clients:**
   - the checklist stays a vertical list, with more spacing;
   - the dashboard URL bar stays on one line with `truncate`;
-  - the three stat boxes become one compact 3-column row below 901px (smaller type, tighter padding);
+  - below 641px the three stat boxes become one bordered list, each row with the label and note on the left and the value on the right (three columns at 390px leave about 94px each, which wraps every label); tablets keep today's 3-column row;
   - the weekly update and change-request list are unchanged apart from spacing.
 - **For developers:** the button becomes full width below 901px.
 - **How we work:** wrap the four steps in `CardSlider`. Hide the rail lines below 901px. The numbered dot, tag, title and text stay. The rail-fill scrub is disabled below 901px, since there is no rail to fill.
