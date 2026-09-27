@@ -5,36 +5,38 @@ import { InfMark } from "@/components/ui/InfMark";
 import { gsap, MOTION, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { motion } from "@/scene/store";
 
-/** Pinned spacer that drives the finale: the dots gather into ∞, then connect into a network. */
+/**
+ * Drives the finale without pinning: the dots start gathering into ∞ once "How we work" is
+ * well on screen and the network is complete by the time this section is centred, just
+ * above the closing banner.
+ */
 export function InfinityFinale() {
   const ref = useRef<HTMLElement>(null);
 
   useGSAP(
     () => {
+      // Once formed (section centred), the ∞ scrolls up with the page above the closing banner.
+      ScrollTrigger.create({
+        trigger: ref.current,
+        start: "center center",
+        end: "max",
+        onUpdate: (self) => void (motion.lift = Math.max(0, self.scroll() - self.start)),
+        onLeaveBack: () => void (motion.lift = 0),
+      });
+
       const mm = gsap.matchMedia();
 
       mm.add(MOTION.ok, () => {
         motion.flowing = true;
+        const how = document.getElementById("how")?.closest("section") ?? ref.current;
         gsap
           .timeline({
-            scrollTrigger: { trigger: ref.current, start: "top top", end: "+=220%", scrub: 1, pin: true },
+            scrollTrigger: { trigger: how, start: "top 30%", endTrigger: ref.current, end: "center center", scrub: 1 },
           })
           .to(motion, { gather: 1, ease: "none", duration: 0.55 }, 0)
           .to(motion, { draw: 1, ease: "none", duration: 0.35 }, 0.5)
           .to(motion.focus, { strength: 0, duration: 0.1 }, 0)
           .fromTo("#finale-copy", { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 0.15 }, 0.85);
-
-        // Dim the ∞ behind the footer as it scrolls in.
-        gsap.fromTo(
-          motion,
-          { reveal: 1 },
-          {
-            reveal: 0.4,
-            ease: "none",
-            immediateRender: false,
-            scrollTrigger: { trigger: document.querySelector("footer"), start: "top bottom", end: "bottom bottom", scrub: true },
-          },
-        );
       });
 
       mm.add(MOTION.reduce, () => {

@@ -32,6 +32,7 @@ export const dotUniforms = {
   uFlow: { value: 0 },
   uDraw: { value: 0 },
   uScale: { value: 1 },
+  uBand: { value: 1 }, // band thickness multiplier (thinner on phones so the ∞ fits)
   uSize: { value: DOT_SIZE },
   uPixelRatio: { value: 1 },
   uScrollY: { value: 0 },
@@ -79,6 +80,7 @@ export function useDotUniformSync(plane: { width: number; height: number }, mobi
   }, []);
   useEffect(() => {
     dotUniforms.uScale.value = infinityScale(plane.width, mobile);
+    dotUniforms.uBand.value = mobile ? 0.5 : 1;
     dotUniforms.uPixelRatio.value = dpr;
     dotUniforms.uFieldH.value = fieldHeight;
   }, [plane.width, mobile, dpr, fieldHeight]);

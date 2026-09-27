@@ -13,12 +13,13 @@ export const motion = {
   draw: 0, // edge draw-on progress 0 -> 1
   flow: 0, // infinity flow offset (radians)
   flowing: true, // false under reduced motion
+  lift: 0, // px scrolled past the formed ∞; it moves up with the page by this much
   mouse: { x: 0, y: 0 }, // NDC -1..1
   touch: false, // no cursor repel on touch devices
 };
 
 /** Back to the pre-scroll state, for when the home page (re)mounts. */
 export function resetMotion() {
-  Object.assign(motion, { intro: 0, hero: 0, reveal: 0, gather: 0, draw: 0, flow: 0, velocity: 0 });
+  Object.assign(motion, { intro: 0, hero: 0, reveal: 0, gather: 0, draw: 0, flow: 0, velocity: 0, lift: 0 });
   motion.focus.strength = 0;
 }

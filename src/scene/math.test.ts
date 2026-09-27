@@ -61,9 +61,9 @@ describe("frustumSize", () => {
 });
 
 describe("infinityScale", () => {
-  it("spans 70% of the width on desktop and 90% on mobile", () => {
+  it("spans 70% of the width on desktop and 80% on mobile", () => {
     expect(infinityScale(10, false) * 2).toBeCloseTo(7);
-    expect(infinityScale(10, true) * 2).toBeCloseTo(9);
+    expect(infinityScale(10, true) * 2).toBeCloseTo(8);
   });
 });
 
@@ -112,12 +112,15 @@ describe("buildDotAttributes", () => {
     expect(inOrder).toBeLessThan(700);
   });
 
-  it("keeps curve offsets inside the band", () => {
+  it("keeps curve offsets inside a band about 0.36 thick", () => {
+    let maxXY = 0;
     for (let i = 0; i < 1000; i++) {
-      expect(Math.abs(a.off[i * 3])).toBeLessThanOrEqual(0.06);
-      expect(Math.abs(a.off[i * 3 + 1])).toBeLessThanOrEqual(0.06);
-      expect(Math.abs(a.off[i * 3 + 2])).toBeLessThanOrEqual(0.15);
+      maxXY = Math.max(maxXY, Math.abs(a.off[i * 3]), Math.abs(a.off[i * 3 + 1]));
+      expect(Math.abs(a.off[i * 3])).toBeLessThanOrEqual(0.18);
+      expect(Math.abs(a.off[i * 3 + 1])).toBeLessThanOrEqual(0.18);
+      expect(Math.abs(a.off[i * 3 + 2])).toBeLessThanOrEqual(0.45);
     }
+    expect(maxXY).toBeGreaterThan(0.15);
   });
 
   it("is deterministic for the same seed", () => {

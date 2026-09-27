@@ -36,7 +36,9 @@ function DotLayer({ countScale }: { countScale: number }) {
   useDotUniformSync(plane, mobile, data.fieldHeight);
 
   useFrame(({ camera }) => {
-    group.current.position.set(camera.position.x, camera.position.y, camera.position.z - DIST);
+    // After the ∞ forms it scrolls up with the page: px of scroll -> world units on the dot plane.
+    const lift = (motion.lift * plane.height) / size.height;
+    group.current.position.set(camera.position.x, camera.position.y + lift, camera.position.z - DIST);
     group.current.visible = motion.reveal > 0.001;
   });
 

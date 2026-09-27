@@ -2,7 +2,7 @@
 // DOT_POSITION is shared so the edges follow the dots exactly.
 
 const COMMON = /* glsl */ `
-uniform float uTime, uGather, uFlow, uScale, uScrollY, uFieldH, uVelocity, uRepel;
+uniform float uTime, uGather, uFlow, uScale, uBand, uScrollY, uFieldH, uVelocity, uRepel;
 uniform vec2 uMouse; // world xy on the dot plane
 attribute vec3 aField;
 attribute vec3 aOff;
@@ -28,7 +28,7 @@ vec3 dotPosition(out vec3 f, out float g) {
   f.xy += normalize(d + 1e-4) * rep * 0.12;
 
   // 3. infinity target, flowing along the curve
-  vec3 inf = lemniscate(aT + uFlow) + aOff;
+  vec3 inf = lemniscate(aT + uFlow) + aOff * uBand;
 
   // 4. staggered gather
   g = smoothstep(0.0, 1.0, clamp(uGather * 1.5 - aRandom * 0.5, 0.0, 1.0));

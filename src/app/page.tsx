@@ -21,8 +21,8 @@ export default function HomePage() {
       <ClientPortal />
       <DevJoin />
       <HowSteps />
-      <CtaPanel accent="Get in touch." title="Tell us the problem. We'll write back in 24 hours." cta="Start a project" />
       <InfinityFinale />
+      <CtaPanel accent="Get in touch." title="Tell us the problem. We'll write back in 24 hours." cta="Start a project" />
       <SectionFocus />
     </>
   );
