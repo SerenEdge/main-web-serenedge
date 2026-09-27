@@ -164,7 +164,7 @@ export const PROCESS: readonly ProcessStep[] = [
     title: "Heads down. Daily demos.",
     homeText:
       "We code, you watch progress in a shared board. Every Friday: a working build you can click, ship, or break.",
-    text: "The unsexy part. We code, you watch progress in a shared board. Every Friday: a working build you can click, ship, or break. No \"trust us, it's almost done.\"",
+    text: "The unsexy part. We code, you watch progress in a shared board. Every Friday: a working build you can click, ship, or break. No “trust us, it's almost done.”",
     facts: [
       ["Duration", "3-12 weeks"],
       ["Cadence", "Daily commits"],
