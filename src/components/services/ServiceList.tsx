@@ -165,7 +165,7 @@ export function ServiceList() {
                 key={s.num}
                 onPointerEnter={(e) => show(s, e)}
                 onPointerLeave={() => setVisible(false)}
-                className="srow group/row relative grid grid-cols-[44px_minmax(0,1fr)] items-baseline gap-x-8 gap-y-2 border-b border-line py-6 transition-opacity duration-300 has-[.srow-link:focus-visible]:outline-2 has-[.srow-link:focus-visible]:outline-offset-4 has-[.srow-link:focus-visible]:outline-accent fine:group-hover/list:opacity-[.38] fine:hover:opacity-100! lg:grid-cols-[64px_minmax(0,3.2fr)_minmax(0,4.4fr)_minmax(0,3.4fr)] lg:py-7"
+                className="srow group/row relative grid grid-cols-[44px_minmax(0,1fr)] items-baseline gap-x-8 gap-y-2 border-b border-line py-6 transition-opacity duration-300 has-[.srow-link:focus-visible]:outline-2 has-[.srow-link:focus-visible]:outline-offset-4 has-[.srow-link:focus-visible]:outline-accent fine:group-hover/list:opacity-[.38] fine:hover:opacity-100! lg:grid-cols-[64px_minmax(0,3.2fr)_minmax(0,4.4fr)_minmax(0,3.4fr)] lg:py-7 max-lg:grid-cols-1 max-lg:gap-y-3 max-lg:py-7"
               >
                 <span className="font-mono text-[13px] text-accent">{s.num}</span>
                 <h3 className="font-display text-[clamp(22px,2vw,28px)] font-bold leading-[1.2] tracking-[-.01em] transition-[transform,color] duration-350 ease-out-expo fine:group-hover/row:translate-x-2.5 fine:group-hover/row:text-accent">
@@ -179,8 +179,8 @@ export function ServiceList() {
                     <ArrowIcon className="ml-2.5 inline-block size-5 -translate-x-2 align-[-2px] opacity-0 transition-[opacity,transform] duration-300 ease-out-expo fine:group-hover/row:translate-x-0 fine:group-hover/row:opacity-100" />
                   </Link>
                 </h3>
-                <p className="col-start-2 max-w-[480px] text-[15.5px] leading-relaxed text-muted lg:col-start-auto">{s.desc}</p>
-                <ul aria-label="Tools" className="col-start-2 mt-1.5 flex flex-wrap gap-1.5 lg:col-start-auto lg:mt-0 lg:justify-end">
+                <p className="col-start-2 max-w-[480px] text-[15.5px] leading-relaxed text-muted lg:col-start-auto max-lg:col-start-1 max-lg:text-base">{s.desc}</p>
+                <ul aria-label="Tools" className="col-start-2 mt-1.5 flex flex-wrap gap-1.5 lg:col-start-auto lg:mt-0 lg:justify-end max-lg:col-start-1">
                   {s.tags.map((t) => (
                     <li key={t} className="flex h-[26px] items-center rounded-sm border border-line px-2.5 font-mono text-[11px] text-muted">
                       {t}
@@ -192,7 +192,7 @@ export function ServiceList() {
                   aria-expanded={isOpen}
                   aria-controls={`more-${s.num}`}
                   onClick={() => setOpen(isOpen ? null : s.num)}
-                  className="relative z-[2] col-start-2 mt-1 inline-flex items-center gap-2 justify-self-start py-2 text-sm font-semibold text-ink after:size-2 after:-translate-y-[3px] after:rotate-45 after:border-b-[1.5px] after:border-r-[1.5px] after:border-current after:transition-transform after:duration-250 aria-expanded:after:-translate-y-px aria-expanded:after:-rotate-[135deg] fine:lg:hidden"
+                  className="relative z-[2] col-start-2 mt-1 inline-flex items-center gap-2 justify-self-start py-2 text-sm font-semibold text-ink after:size-2 after:-translate-y-[3px] after:rotate-45 after:border-b-[1.5px] after:border-r-[1.5px] after:border-current after:transition-transform after:duration-250 aria-expanded:after:-translate-y-px aria-expanded:after:-rotate-[135deg] fine:lg:hidden max-lg:col-start-1"
                 >
                   What you get
                 </button>
@@ -200,7 +200,7 @@ export function ServiceList() {
                   id={`more-${s.num}`}
                   inert={!isOpen}
                   className={cn(
-                    "relative z-[2] col-start-2 grid transition-[grid-template-rows] duration-300 ease-out-expo lg:col-span-3 fine:lg:hidden",
+                    "relative z-[2] col-start-2 grid transition-[grid-template-rows] duration-300 ease-out-expo lg:col-span-3 fine:lg:hidden max-lg:col-start-1",
                     isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
                   )}
                 >
@@ -213,17 +213,17 @@ export function ServiceList() {
               </li>
             );
           })}
-          <li className="grid grid-cols-[44px_minmax(0,1fr)] items-baseline gap-x-8 gap-y-2 border-b border-line py-6 lg:grid-cols-[64px_minmax(0,3.2fr)_minmax(0,4.4fr)_minmax(0,3.4fr)] lg:py-7">
+          <li className="grid grid-cols-[44px_minmax(0,1fr)] items-baseline gap-x-8 gap-y-2 border-b border-line py-6 lg:grid-cols-[64px_minmax(0,3.2fr)_minmax(0,4.4fr)_minmax(0,3.4fr)] lg:py-7 max-lg:grid-cols-1 max-lg:gap-y-3 max-lg:py-7">
             <span className="font-mono text-[13px] text-accent">?</span>
             <h3 className="font-display text-[clamp(22px,2vw,28px)] font-bold leading-[1.2] tracking-[-.01em] text-accent">
               Something weird<span className="font-normal">?</span>
             </h3>
-            <p className="col-start-2 max-w-[480px] text-[15.5px] leading-relaxed text-muted lg:col-start-auto">
+            <p className="col-start-2 max-w-[480px] text-[15.5px] leading-relaxed text-muted lg:col-start-auto max-lg:col-start-1 max-lg:text-base">
               If it ships software, signals or sensors and nobody else wants to take it on, that&apos;s exactly the brief we love.
             </p>
             <Link
               href="/contact?topic=other"
-              className="group col-start-2 mt-1 inline-flex items-center gap-2 justify-self-start self-center text-base font-medium transition-colors hover:text-accent lg:col-start-auto lg:mt-0 lg:justify-self-end"
+              className="group col-start-2 mt-1 inline-flex items-center gap-2 justify-self-start self-center text-base font-medium transition-colors hover:text-accent lg:col-start-auto lg:mt-0 lg:justify-self-end max-lg:col-start-1"
             >
               Tell us about it
               <ArrowIcon className="size-4 transition-transform duration-200 ease-out-expo group-hover:translate-x-[3px]" />

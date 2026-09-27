@@ -21,7 +21,7 @@ export default function ServicesPage() {
         accent="One continuous team."
         lead="We don't hand you off between agencies. The same people who scope your project also write the firmware, train the model and push to production."
       >
-        <Button href="/contact" arrow>
+        <Button href="/contact" arrow className="max-sm:w-full">
           Book a discovery call
         </Button>
       </PageHero>
