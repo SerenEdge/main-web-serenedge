@@ -120,6 +120,13 @@
   background-size: 100%;
   background-repeat: no-repeat;
 }
+/* Hides a scroll container's scrollbar but keeps it scrollable. */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
 
 @layer base {
   html {
