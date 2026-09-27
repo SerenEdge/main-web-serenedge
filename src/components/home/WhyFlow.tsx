@@ -83,7 +83,7 @@ function PortalVignette() {
     <div className={cn(card, "overflow-hidden")}>
       <div className="flex h-[30px] items-center gap-2 border-b border-line bg-surface px-3 font-mono text-[10.5px] text-muted">
         <span className="size-2 rounded-full bg-accent" />
-        platform.serenedge.com
+        platform.serenedge.com/client
       </div>
       <div className="flex items-center gap-4 p-4">
         <div
@@ -200,8 +200,8 @@ export function WhyFlow() {
           <WhyLink />
           <Step vignette={<PortalVignette />} eyebrow="03 · Client portal" title="Monitor it yourself.">
             After you&apos;re on board, you get a secure invite to{" "}
-            <a className="underline underline-offset-3 transition-colors hover:text-accent" href={SITE.platformUrl} rel="noopener">
-              platform.serenedge.com
+            <a className="underline underline-offset-3 transition-colors hover:text-accent" href={`${SITE.platformUrl}/client`} rel="noopener">
+              platform.serenedge.com/client
             </a>{" "}
             to follow your project any time. No account setup, no technical knowledge needed.
           </Step>

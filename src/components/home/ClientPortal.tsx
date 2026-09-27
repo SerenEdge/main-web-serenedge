@@ -120,7 +120,7 @@ export function ClientPortal() {
             <span className="size-2.5 rounded-full bg-line-2" />
             <span className="size-2.5 rounded-full bg-line-2" />
             <span className="size-2.5 rounded-full bg-line-2" />
-            <em className="ml-3 font-mono text-xs not-italic text-muted">platform.serenedge.com</em>
+            <em className="ml-3 font-mono text-xs not-italic text-muted">platform.serenedge.com/c/sample-project</em>
           </div>
           <div className="flex flex-col gap-6 p-5 sm:p-7">
             <div className="flex items-start justify-between gap-3">
