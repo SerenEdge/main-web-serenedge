@@ -85,7 +85,7 @@ src/
     components/EmailShell.tsx
     ClientConfirmation.tsx
     TeamNotification.tsx
-    assets/logo-email.png
+    static/logo-email.png     (also served by the React Email preview)
   lib/
     site.ts                  contact details, nav links, services, process steps, tools, topics
     contact-schema.ts        zod schema shared by client and server
@@ -151,7 +151,7 @@ Per-page `metadata` (title, description, canonical, Open Graph) is carried over 
 - Fluid type from the mock (`clamp(...)` sizes for hero, h2, h3) is kept via arbitrary values wrapped in small reusable components (`<Eyebrow>`, heading classes defined with `@utility` such as `h2-display`, `hero-display`).
 - The infinity brand mark becomes `@utility inf-mask` (SVG data-URI mask) used by `<InfMark>`, eyebrow ornaments, list bullets and the footer mark.
 - One-off visuals that are awkward as utilities (conic-gradient progress ring, dotted vignette background, marquee edge mask) go in a small `@layer components` block.
-- Fonts: `next/font/local` for `geist-latin.woff2` + `geist-latin-ext.woff2` (variable weight), `geist-mono-latin.woff2`, and `candid.otf`, exposed as CSS variables.
+- Fonts: `next/font/local` for `geist-latin.woff2` (variable weight; the latin-ext subset is dropped because next/font/local cannot give it a unicode-range), `geist-mono-latin.woff2`, and `candid.otf`, exposed as CSS variables.
 - Breakpoints follow the mock: 640, 760, 900, 1100px (custom `@theme` breakpoints where Tailwind defaults differ).
 - The mock's `prefers-reduced-motion` rules are kept (CSS transitions disabled); GSAP handles the rest (section 5).
 
@@ -169,7 +169,7 @@ Per-page `metadata` (title, description, canonical, Open Graph) is carried over 
 - `ScrollTrigger.refresh()` runs after `document.fonts.ready` and after the page transition finishes.
 - **Reduced motion:** all animation is created inside `gsap.matchMedia()`. Under `(prefers-reduced-motion: reduce)` Lenis is not started, and elements are set to their final state with no tweens. Pinning is disabled.
 - **No-JS / SSR safety:** server HTML renders content fully visible. Initial hidden states are applied by GSAP on mount (`gsap.set` inside `useGSAP`, which runs before paint via layout effect), so there is no flash and no invisible content if JS fails.
-- **Motion tokens:** eases `expo.out` and `power3.out`; durations 0.6–1.1s; stagger 0.06–0.1s. Only `transform`, `opacity` and `filter` (the rotator's blur) are animated.
+- **Motion tokens:** eases `expo.out` and `power3.out`; durations 0.6–1.1s; stagger 0.06–0.1s. Only `transform` and `opacity` are animated, except the rotator's `filter: blur`, the CTA panel's corner radius and the colour of the four "How we work" dots.
 
 ### 5.2 Shared primitives
 
@@ -201,12 +201,12 @@ Per-page `metadata` (title, description, canonical, Open Graph) is carried over 
 **Contact**
 - Hero intro; "what happens next" pips and stems draw in order; the form panel rises.
 - Topic chips have a small press/select spring.
-- On success the form cross-fades out, the panel height eases to the sent state, and the tick draws via SVG `stroke-dashoffset`.
+- On success the form is replaced by the sent state, which fades up while the tick draws via SVG `stroke-dashoffset`.
 
 ### 5.4 Nav
 
 - A floating pill header, fixed, as in the mock.
-- The mobile menu opens with a GSAP height/opacity tween, closes on Escape, outside click and route change, and stops Lenis while open.
+- The mobile menu opens with a CSS opacity/translate transition, closes on Escape, outside click and route change, and stops Lenis while open.
 
 ## 6. Contact form and email
 
@@ -270,9 +270,9 @@ Both templates are built with React Email components and share `EmailShell`:
 - `<meta name="color-scheme" content="light">` and `supported-color-schemes` so clients keep the light design where they honour it.
 
 **Logo (CID inline):**
-- `src/emails/assets/logo-email.png` is generated from `Base Logo - Dark.png` at about 480px wide with a **solid white background** (not transparent), so the black infinity stays visible in dark-mode inboxes that invert or darken the card.
+- `src/emails/static/logo-email.png` is generated from `Base Logo - Dark.png` at about 480px wide with a **solid white background** (not transparent), so the black infinity stays visible in dark-mode inboxes that invert or darken the card.
 - It is attached to each send as `{ filename: "serenedge-logo.png", content: <Buffer>, contentId: "serenedge-logo" }` and referenced as `<img src="cid:serenedge-logo" width="120" alt="SerenEdge">`. The alt text is styled in accent blue, bold, so a readable wordmark shows if images are off.
-- The file is read with `fs.readFile(path.join(process.cwd(), "src/emails/assets/logo-email.png"))` and bundled for deploy with `outputFileTracingIncludes: { "/contact": ["./src/emails/assets/**"] }` in `next.config.ts`.
+- The file is read with `fs.readFile(path.join(process.cwd(), "src/emails/static/logo-email.png"))` and bundled for deploy with `outputFileTracingIncludes: { "/contact": ["./src/emails/static/**"] }` in `next.config.ts`.
 
 **Client confirmation**
 - From `CONTACT_FROM_EMAIL`, to the submitter, reply-to `sales@serenedge.com`.
