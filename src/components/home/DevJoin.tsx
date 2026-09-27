@@ -13,12 +13,12 @@ export function DevJoin() {
             <h2 id="devs" className="font-display text-[28px] font-bold leading-[1.2]">
               Real projects. Clear specs. Fair rewards.
             </h2>
-            <p className="max-w-[620px] text-[15px] leading-relaxed text-muted">
+            <p className="max-w-[620px] text-[15px] leading-relaxed text-muted max-lg:text-base">
               Well-defined tasks, your own AI tools, transparent pay and a bonus when a project lands under budget. Sign in,
               complete a short practice task and pick up your first task.
             </p>
           </div>
-          <Button href={SITE.platformUrl} arrow className="shrink-0">
+          <Button href={SITE.platformUrl} arrow className="shrink-0 max-md:w-full">
             Join as a developer
           </Button>
         </div>

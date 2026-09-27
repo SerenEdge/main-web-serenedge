@@ -101,7 +101,7 @@ export function ClientPortal() {
         <div className="flex flex-col gap-7">
           <Eyebrow inf>For clients</Eyebrow>
           <h2 id="clients" className="type-h2">
-            <span className="text-accent">See your project,</span> any time.
+            <span className="text-accent max-lg:block">See your project,</span> any time.
           </h2>
           <p className="type-lead">Stop chasing status updates. Open one link and see where you stand.</p>
           <ul className="flex flex-col">
@@ -111,7 +111,7 @@ export function ClientPortal() {
                 <li
                   key={it.key}
                   className={cn(
-                    "tick-item relative flex flex-wrap gap-x-2.5 gap-y-0.5 border-t border-line py-3.5 pl-8 text-base leading-normal transition-colors duration-300 last:border-b",
+                    "tick-item relative flex flex-wrap gap-x-2.5 gap-y-0.5 border-t border-line py-3.5 pl-8 text-base leading-normal transition-colors duration-300 last:border-b max-lg:py-4",
                     "before:inf-mask before:absolute before:left-0 before:top-[21px] before:h-[11px] before:w-[22px] before:transition-colors before:duration-300",
                     !live && "before:bg-accent",
                     live && (on ? "text-ink before:bg-accent" : "text-muted before:bg-line-2"),
@@ -123,7 +123,7 @@ export function ClientPortal() {
               );
             })}
           </ul>
-          <p className="text-[15px] leading-relaxed text-muted">
+          <p className="text-[15px] leading-relaxed text-muted max-lg:text-base">
             Your budget stays protected. Changes are handled from a dedicated reserve, so requests don&apos;t quietly eat into
             the main scope.
           </p>
@@ -134,7 +134,7 @@ export function ClientPortal() {
             <span className="size-2.5 rounded-full bg-line-2" />
             <span className="size-2.5 rounded-full bg-line-2" />
             <span className="size-2.5 rounded-full bg-line-2" />
-            <em className="ml-3 font-mono text-xs not-italic text-muted">platform.serenedge.com/c/sample-project</em>
+            <em className="ml-3 font-mono text-xs not-italic text-muted max-lg:min-w-0 max-lg:truncate">platform.serenedge.com/c/sample-project</em>
           </div>
           <div className="flex flex-col gap-6 p-5 sm:p-7">
             <div className="flex items-start justify-between gap-3">
@@ -155,7 +155,7 @@ export function ClientPortal() {
                 </i>
               </div>
             </div>
-            <div className="grid gap-3 sm:grid-cols-3">
+            <div className="grid gap-3 max-sm:gap-0 max-sm:overflow-hidden max-sm:rounded-md max-sm:border max-sm:border-line max-sm:bg-surface sm:grid-cols-3">
               {(
                 [
                   ["countdown", "Next milestone", "12 days", "Beta release"],
@@ -163,9 +163,15 @@ export function ClientPortal() {
                   ["finish", "Projected finish", "2 days early", "At current pace"],
                 ] as const
               ).map(([k, label, value, note]) => (
-                <div key={label} className={cn("flex min-w-0 flex-col gap-1 rounded-md border border-line bg-surface p-3.5", lit(k))}>
+                <div
+                  key={label}
+                  className={cn(
+                    "flex min-w-0 flex-col gap-1 rounded-md border border-line bg-surface p-3.5 max-sm:grid max-sm:grid-cols-[minmax(0,1fr)_auto] max-sm:items-center max-sm:gap-x-3 max-sm:gap-y-0.5 max-sm:rounded-none max-sm:border-x-0 max-sm:border-t-0 max-sm:bg-transparent max-sm:px-4 max-sm:py-3 max-sm:last:border-b-0",
+                    lit(k),
+                  )}
+                >
                   <Eyebrow className="text-[10px]">{label}</Eyebrow>
-                  <b className="font-display text-xl leading-[1.2]">{value}</b>
+                  <b className="font-display text-xl leading-[1.2] max-sm:col-start-2 max-sm:row-span-2 max-sm:row-start-1 max-sm:text-right max-sm:text-lg">{value}</b>
                   <small className="text-xs text-muted">{note}</small>
                 </div>
               ))}

@@ -36,7 +36,7 @@ export function Hero() {
   return (
     <section
       ref={ref}
-      className="flex min-h-[min(860px,100svh)] flex-col items-center justify-center px-(--gutter) pb-[72px] pt-[clamp(120px,14vw,150px)] text-center"
+      className="flex min-h-[min(860px,100svh)] flex-col items-center justify-center px-(--gutter) pb-[72px] pt-[clamp(120px,14vw,150px)] text-center max-lg:min-h-0"
     >
       <div className="hero-inner flex max-w-[1060px] flex-col items-center gap-7">
         <p className="hero-kicker text-base font-medium leading-6 text-muted">
