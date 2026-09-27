@@ -49,7 +49,8 @@ void main() {
   gl_Position = projectionMatrix * mv;
 
   float tw = 0.85 + 0.15 * sin(uTime * 1.3 + aRandom * 20.0);
-  gl_PointSize = uSize * uPixelRatio * tw * mix(1.0, 1.35, g) * (1.0 / -mv.z);
+  // Big and faint in the field; shrinks as it gathers so the ∞ stays crisp.
+  gl_PointSize = uSize * uPixelRatio * tw * mix(1.0, 0.72, g) * (1.0 / -mv.z);
 
   vGlow = uFocus.z * smoothstep(2.2, 0.0, length(f.xy - uFocus.xy)) * (1.0 - g);
   vAlpha = uReveal * mix(uFieldAlpha, 0.95, g);
