@@ -6,7 +6,7 @@ import { useRef } from "react";
 import * as THREE from "three";
 import { motion } from "./store";
 
-const TEXTURE = "/img/cloud-puff.png";
+const TEXTURE = "/img/cloud-puff.webp";
 
 /** Fades every cloud material in a <Clouds> group (drei multiplies material opacity into each puff). */
 function setGroupOpacity(group: THREE.Group, opacity: number) {

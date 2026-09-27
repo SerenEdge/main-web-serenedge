@@ -8,18 +8,17 @@ import { gsap } from "@/lib/gsap";
 import { DotField, InfinityEdges, useDotData, useDotUniformSync } from "./DotField";
 import { HeroClouds } from "./HeroClouds";
 import { LogoPlane } from "./LogoPlane";
+import { DIST, FOV, LOGO_MAX_W, LOGO_VW } from "./heroLayout";
 import { frustumSize } from "./math";
 import { motion } from "./store";
 
-const FOV = 50;
-const DIST = 8; // camera to dot plane, and the rest distance camera -> logo
-const CAM_START = 12;
 
 /** Hero fly-through: forward through the clouds and slightly up, plus a little mouse sway. */
 function CameraRig() {
   useFrame(({ camera }) => {
     const h = motion.hero;
-    camera.position.z = CAM_START - (CAM_START - DIST) * motion.intro - h * 9;
+    // Starts at rest (no zoom-in) so the instant DOM logo and the 3D logo line up at handover.
+    camera.position.z = DIST - h * 9;
     camera.position.y = h * 1.5;
     camera.position.x += (motion.mouse.x * 0.15 - camera.position.x) * 0.05;
   });
@@ -56,12 +55,15 @@ function Intro({ still }: { still: boolean }) {
   useEffect(() => {
     gl.compile(scene, camera); // avoid a shader-compile hitch on first scroll
     if (still) {
-      motion.intro = 1;
+      motion.intro = motion.logoIn = 1;
       return;
     }
-    const tw = gsap.to(motion, { intro: 1, duration: 1.8, ease: "expo.out" });
+    const tl = gsap
+      .timeline()
+      .to(motion, { logoIn: 1, duration: 0.4, ease: "none" }, 0)
+      .to(motion, { intro: 1, duration: 1.6, ease: "power2.out" }, 0);
     return () => {
-      tw.kill();
+      tl.kill();
     };
   }, [gl, scene, camera, still]);
   return null;
@@ -71,7 +73,7 @@ function Hero({ still }: { still: boolean }) {
   const size = useThree((s) => s.size);
   const mobile = size.width < 768;
   const plane = frustumSize(FOV, size.width / size.height, DIST);
-  const logoWidth = Math.min(3.4, plane.width * 0.62);
+  const logoWidth = Math.min(LOGO_MAX_W, plane.width * LOGO_VW);
   return (
     <>
       <HeroClouds still={still} mobile={mobile} spread={Math.min(1, Math.max(0.45, plane.width / 13.3))} />
@@ -110,7 +112,7 @@ export default function Scene3D({ still }: { still: boolean }) {
       flat // no tone mapping: ACES turns white clouds grey
       dpr={[1, dpr]}
       frameloop={hidden ? "never" : "always"}
-      camera={{ fov: FOV, position: [0, 0, CAM_START], near: 0.1, far: 100 }}
+      camera={{ fov: FOV, position: [0, 0, DIST], near: 0.1, far: 100 }}
       gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
     >
       <PerformanceMonitor

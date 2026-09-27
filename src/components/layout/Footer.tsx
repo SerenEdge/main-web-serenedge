@@ -43,7 +43,7 @@ export function Footer() {
       <div className="grid grid-cols-2 gap-x-5 gap-y-6 pb-7 lg:grid-cols-[minmax(0,2fr)_repeat(2,minmax(0,1fr))] lg:gap-8">
         <div className="col-span-full flex max-w-[320px] flex-col gap-2.5 lg:col-span-1">
           <Link href="/" aria-label="SerenEdge home" className="self-start">
-            <Image src="/img/logo.png" alt="SerenEdge" width={56} height={30} className="h-[26px] w-auto" />
+            <Image src="/img/logo.webp" alt="SerenEdge" width={56} height={30} className="h-[26px] w-auto" />
           </Link>
           <p className="text-sm leading-relaxed text-muted">{SITE.tagline}</p>
         </div>

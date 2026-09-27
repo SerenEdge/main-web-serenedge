@@ -43,7 +43,7 @@ export function Nav() {
         className="pointer-events-auto relative flex h-[68px] w-full max-w-[560px] items-center gap-4 rounded-lg border border-line bg-white/85 pl-5 pr-3 shadow-2 backdrop-blur-[14px] lg:w-auto lg:max-w-none lg:gap-12 lg:pl-[26px] lg:pr-4"
       >
         <Link href="/" aria-label="SerenEdge home" className="shrink-0">
-          <Image src="/img/logo.png" alt="SerenEdge" width={56} height={30} priority className="h-[30px] w-auto" />
+          <Image src="/img/logo.webp" alt="SerenEdge" width={56} height={30} preload className="h-[30px] w-auto" />
         </Link>
 
         <button

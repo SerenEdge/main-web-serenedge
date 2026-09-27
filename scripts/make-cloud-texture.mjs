@@ -1,4 +1,4 @@
-// Generates public/img/cloud-puff.png: a soft white puff with a noisy edge,
+// Generates public/img/cloud-puff.webp: a soft white puff with a noisy edge,
 // used as the sprite for the hero's drei <Clouds>. Run: node scripts/make-cloud-texture.mjs
 import sharp from "sharp";
 
@@ -53,6 +53,6 @@ for (let y = 0; y < SIZE; y++) {
 }
 
 await sharp(px, { raw: { width: SIZE, height: SIZE, channels: 4 } })
-  .png()
-  .toFile(new URL("../public/img/cloud-puff.png", import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1"));
-console.log("wrote public/img/cloud-puff.png");
+  .webp({ quality: 85, alphaQuality: 90, effort: 6 })
+  .toFile(new URL("../public/img/cloud-puff.webp", import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1"));
+console.log("wrote public/img/cloud-puff.webp");
