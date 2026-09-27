@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+/* Mirrors the mock's pinned-runway media query and its hover-only effects. */
+@custom-variant pin (@media (min-width: 901px) and (min-height: 820px));
+@custom-variant fine (@media (hover: hover) and (pointer: fine));
+
+@theme {
+  --breakpoint-*: initial;
+  --breakpoint-sm: 40.0625rem; /* 641px */
+  --breakpoint-md: 47.5625rem; /* 761px */
+  --breakpoint-lg: 56.3125rem; /* 901px */
+  --breakpoint-xl: 68.8125rem; /* 1101px */
+
+  --color-ink: #0b0d12;
+  --color-ink-2: #262b35;
+  --color-muted: #5b6470;
+  --color-soft: #8f98a6;
+  --color-on-dark: #c4cad3;
+  --color-line: #dfe3e9;
+  --color-line-2: #c9d3e0;
+  --color-surface: #f6f7f9;
+  --color-surface-2: #edf0f4;
+  --color-accent: #5b8ac5;
+  --color-danger: #b42318;
+  --color-ok: #1a7f4b;
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+
+  --shadow-1: 0 1px 2px rgba(11, 13, 18, 0.06);
+  --shadow-2: 0 8px 24px rgba(11, 13, 18, 0.1);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@theme inline {
+  --font-sans: var(--font-geist), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-display: var(--font-candid), var(--font-geist), system-ui, sans-serif;
+}
+
+:root {
+  --gutter: clamp(20px, 5.6vw, 80px);
+  --section-y: clamp(72px, 9vw, 128px);
+  --inf: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 14'%3E%3Cpath d='M14 7c-2.4-3-4.2-4.6-6.6-4.6a4.6 4.6 0 0 0 0 9.2c2.4 0 4.2-1.6 6.6-4.6s4.2-4.6 6.6-4.6a4.6 4.6 0 0 1 0 9.2c-2.4 0-4.2-1.6-6.6-4.6z' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+@utility type-hero {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(46px, 7.4vw, 96px);
+  line-height: 1;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+@utility type-h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(34px, 4vw, 56px);
+  line-height: 1.07;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+@utility type-lead {
+  font-size: clamp(17px, 1.5vw, 20px);
+  line-height: 1.6;
+  color: var(--color-muted);
+}
+/* No colour on purpose: add text-muted / text-accent / text-soft alongside. */
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+/* The infinity from the logo. Pair with a bg-* colour. */
+@utility inf-mask {
+  -webkit-mask: var(--inf) center / contain no-repeat;
+  mask: var(--inf) center / contain no-repeat;
+}
+/* Surface band that fades in and out of white. */
+@utility band {
+  background: linear-gradient(
+    180deg,
+    rgb(246 247 249 / 0) 0,
+    var(--color-surface) clamp(64px, 8vw, 120px),
+    var(--color-surface) calc(100% - clamp(64px, 8vw, 120px)),
+    rgb(246 247 249 / 0) 100%
+  );
+}
+@utility vig-bg {
+  background:
+    radial-gradient(circle at 1px 1px, rgba(11, 13, 18, 0.07) 1px, transparent 0) 0 0 / 16px 16px,
+    var(--color-surface);
+}
+/* Needs --p (0-100) set inline. */
+@utility ring-progress {
+  background:
+    radial-gradient(closest-side, #fff 76%, transparent 78%),
+    conic-gradient(var(--color-accent) calc(var(--p) * 1%), var(--color-surface-2) 0);
+}
+@utility check-icon {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 8.3l2.3 2.3 4.7-5' fill='none' stroke='%23fff' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-position: center;
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    overflow-x: clip;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+}
