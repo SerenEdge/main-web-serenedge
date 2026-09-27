@@ -59,11 +59,11 @@ export function WordRotator({ className }: { className?: string }) {
   return (
     <p
       className={cn(
-        "mt-2 flex flex-wrap items-baseline justify-center gap-[.28em] text-[clamp(22px,2.7vw,32px)] font-medium leading-tight tracking-[-.015em] text-muted",
+        "mt-2 flex flex-wrap items-baseline justify-center gap-y-2 text-[clamp(22px,2.7vw,32px)] font-medium leading-tight tracking-[-.015em] text-muted",
         className,
       )}
     >
-      We build
+      We build{" "}
       <span
         ref={box}
         className="inline-grid justify-items-center text-ink"
