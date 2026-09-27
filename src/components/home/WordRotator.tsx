@@ -63,10 +63,10 @@ export function WordRotator({ className }: { className?: string }) {
         className,
       )}
     >
-      We build{" "}
+      We build
       <span
         ref={box}
-        className="inline-grid justify-items-center text-ink"
+        className="ml-[0.23em] inline-grid grid-cols-[100%] justify-items-start text-ink"
         aria-label="web platforms, IoT fleets, automations, custom systems and ML models"
       >
         {WORDS.map((w, n) => (

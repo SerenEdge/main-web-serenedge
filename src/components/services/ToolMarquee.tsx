@@ -60,7 +60,14 @@ export function ToolMarquee() {
       >
         <div className="mq-track flex w-max motion-reduce:w-auto">
           {[0, 1].map((copy) => (
-            <ul key={copy} aria-hidden="true" className={cn("flex shrink-0 motion-reduce:flex-wrap", copy === 1 && "motion-reduce:hidden")}>
+            <ul
+              key={copy}
+              aria-hidden="true"
+              className={cn(
+                "flex shrink-0 motion-reduce:w-full motion-reduce:shrink motion-reduce:flex-wrap motion-reduce:justify-center",
+                copy === 1 && "motion-reduce:hidden",
+              )}
+            >
               {TOOLS.map((t) => (
                 <li key={t.name} className="mr-6 flex h-[52px] items-center gap-3 whitespace-nowrap px-5 text-sm font-medium md:h-[60px] md:text-[15px]">
                   <Image src={`/logos/${t.logo}.svg`} alt="" width={26} height={26} className="size-6 object-contain md:size-[26px]" />
